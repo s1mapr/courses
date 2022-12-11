@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+<form method="post" th:action="@{/registration}" th:object="${user}">
+    <div>
+    <input type="text" name="firstName" id="firstName" placeholder="First name">
+    </div>
+    <div>
+    <input type="text" name="lastName" id="lastName" placeholder="Last name">
+    </div>
+    <div>
+    <input type="text" name="email" id="email" placeholder="Email">
+    </div>
+    <div>
+    <input type="text" name="age" id="age" placeholder="Age">
+    </div>
+    <input type="submit" value="Create account">
+
+
+</form>
+
+
+</body>
+</html>
