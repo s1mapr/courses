@@ -1,10 +1,7 @@
 package com.example.diploma;
 
-import com.example.diploma.repositories.StudentRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class DiplomaApplication {
@@ -14,9 +11,9 @@ public class DiplomaApplication {
     }
 
 //@Bean
-//    CommandLineRunner commandLineRunner (StudentRepository studentRepository){
+//    CommandLineRunner commandLineRunner (UserRepository studentRepository){
 //        return args -> {
-//            Student maria = new Student("Maria", "Jones", "email@gmail.com", 12);
+//            User maria = new User("Maria", "Jones", "email@gmail.com", 12);
 //            studentRepository.save(maria);
 //        };
 //    }

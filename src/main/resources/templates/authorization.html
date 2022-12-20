@@ -5,8 +5,16 @@
     <title>Authorization</title>
 </head>
 <body>
-  <form method="post" th:action="@{/registration}" >
-    <input >
+  <form method="post" th:action="@{/authorization}" th:object="${user}">
+      <div>
+          <input type="text" name="login" placeholder="Login">
+      </div>
+      <div>
+          <input type="text" name="password" placeholder="Password">
+      </div>
+      <div>
+          <input type="submit" value="login">
+      </div>
 
   </form>
 </body>

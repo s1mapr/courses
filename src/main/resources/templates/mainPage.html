@@ -6,7 +6,12 @@
 </head>
 <body>
 Main page
-<a href="/register">start your journey with us</a>
+<a href="/registration">start your journey with us</a>
 <a href="/authorization">authorization</a>
+<div th:each="element : ${students}">
+    <div>
+        <p th:text="${element.id} + ' ' + ${element.email}"></p>
+    </div>
+</div>
 </body>
 </html>
