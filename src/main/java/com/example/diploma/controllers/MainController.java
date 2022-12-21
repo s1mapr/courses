@@ -1,6 +1,7 @@
 package com.example.diploma.controllers;
 
 import com.example.diploma.enteties.User;
+import com.example.diploma.repositories.StudentCourseMapRepository;
 import com.example.diploma.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
