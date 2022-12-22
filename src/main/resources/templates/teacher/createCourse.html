@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="header :: content"></div>
+<form method="post" th:action="@{/teacher/createCourse}" th:object="${course}">
+    <div>
+        <input type="text" name="courseTitle" placeholder="course title">
+    </div>
+    <div>
+        <input type="text" name="price" placeholder="price">
+    </div>
+    <div>
+        <input type="submit" value="create course">
+    </div>
+
+</form>
+
+</body>
+</html>

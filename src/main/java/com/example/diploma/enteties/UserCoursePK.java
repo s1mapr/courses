@@ -7,7 +7,7 @@ import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 
 @Embeddable
-public class StudentCoursePK implements Serializable {
+public class UserCoursePK implements Serializable {
     @ManyToOne
     @JoinColumn(name="course_id")
     private Course course;

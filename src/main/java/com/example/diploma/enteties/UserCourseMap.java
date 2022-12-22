@@ -6,28 +6,28 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
-@Entity(name="studentСourse")
-@Table(name="student_course")
-public class StudentCourseMap {
+@Entity(name="userСourse")
+@Table(name="user_course")
+public class UserCourseMap {
 
     @EmbeddedId
-    private StudentCoursePK pk;
+    private UserCoursePK pk;
     @Column(name="progress")
     private Double progress;
 
-    public StudentCourseMap() {
+    public UserCourseMap() {
     }
 
-    public StudentCourseMap(StudentCoursePK pk, Double progress) {
+    public UserCourseMap(UserCoursePK pk, Double progress) {
         this.pk = pk;
         this.progress = progress;
     }
 
-    public StudentCoursePK getPk() {
+    public UserCoursePK getPk() {
         return pk;
     }
 
-    public void setPk(StudentCoursePK pk) {
+    public void setPk(UserCoursePK pk) {
         this.pk = pk;
     }
 

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class StudentService {
+public class UserService {
 
     private UserRepository userRepository;
 
     @Autowired
-    public void setStudentRepository(UserRepository userRepository) {
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -22,11 +22,11 @@ public class StudentService {
         userRepository.save(user);
     }
 
-    public List<User> getStudentsByFirstName(String firstName){
-        return userRepository.findStudentsByFirstName(firstName);
+    public List<User> getUserByFirstName(String firstName){
+        return userRepository.findUsersByFirstName(firstName);
     }
 
-    public User getStudentByLoginAndPassword(String login, String password){
-        return userRepository.findStudentByLoginAndPassword(login, password);
+    public User getUserByLoginAndPassword(String login, String password){
+        return userRepository.findUserByLoginAndPassword(login, password);
     }
 }
