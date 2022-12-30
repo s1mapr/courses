@@ -23,6 +23,10 @@ public class UserCourseMap {
         this.progress = progress;
     }
 
+    public UserCourseMap(UserCoursePK pk) {
+        this.pk = pk;
+    }
+
     public UserCoursePK getPk() {
         return pk;
     }
@@ -38,4 +42,6 @@ public class UserCourseMap {
     public void setProgress(Double progress) {
         this.progress = progress;
     }
+
+
 }
