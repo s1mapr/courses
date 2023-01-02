@@ -1,10 +1,9 @@
 package com.example.diploma.controllers;
 
 import com.example.diploma.dto.CourseDTO;
-import com.example.diploma.enteties.Course;
-import com.example.diploma.enteties.User;
-import com.example.diploma.enteties.UserCourseMap;
-import com.example.diploma.enteties.UserCoursePK;
+import com.example.diploma.enteties.*;
+import com.example.diploma.repositories.CourseMaterialRepository;
+import com.example.diploma.service.CourseMaterialService;
 import com.example.diploma.service.CourseService;
 import com.example.diploma.service.UserCourseMapService;
 import jakarta.servlet.http.HttpSession;
@@ -22,6 +21,13 @@ public class TeacherController {
     private CourseService courseService;
 
     private UserCourseMapService userCourseMapService;
+
+    private CourseMaterialService courseMaterialService;
+
+    @Autowired
+    public void setCourseMaterialService(CourseMaterialService courseMaterialService) {
+        this.courseMaterialService = courseMaterialService;
+    }
 
     @Autowired
     public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
@@ -68,13 +74,24 @@ public class TeacherController {
         return "teacher/course";
     }
 
-    @GetMapping
-    public String addNewMaterialGetMethod(){
+    @GetMapping("/{id}/newMaterial")
+    public String addNewMaterialGetMethod(@PathVariable("id") Long id
+            ,Model model){
+        Course course = courseService.getCourseById(id);
+        model.addAttribute("course", course);
+        model.addAttribute("courseMaterial", new CourseMaterial());
         return "teacher/newMaterial";
     }
 
+    @PostMapping("/{id}/newMaterial")
+    public String addNewMaterialPostMethod(
+            @PathVariable("id") Long id,
+            @ModelAttribute("courseMaterial") CourseMaterial courseMaterial){
+        Course course = courseService.getCourseById(id);
+        courseMaterial.setCourse(course);
+        courseMaterialService.saveCourseMaterial(courseMaterial);
+        return "redirect:course";
 
-
-
+    }
 
 }

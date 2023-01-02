@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${courseInfo.getCourseTitle()}">Course name</title>
+    <title th:text="${courseInfo.getCourse().getCourseTitle()}">Course name</title>
 </head>
 <body>
-    <p th:text="${courseInfo.getCourseTitle()}"></p>
-    <p th:text="${courseInfo.getTeacherName()}"></p>
-    <p th:text="${courseInfo.getPrice()}"></p>
-    <a href="">add new material</a>
+    <p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
+    <p th:text="${courseInfo.getCourse().getTeacherName()}"></p>
+    <p th:text="${courseInfo.getCourse().getPrice()}"></p>
+    <a th:href="@{/teacher/{id}/newMaterial(id=${courseInfo.getCourse().getId()})}" >add new material</a>
 </body>
 </html>

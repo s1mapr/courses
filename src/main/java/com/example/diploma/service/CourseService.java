@@ -45,10 +45,12 @@ public class CourseService {
     public CourseDTO getCourseData(Long id){
         Course course = courseRepository.findCourseById(id);
         CourseDTO courseInfo = new CourseDTO();
-        courseInfo.setCourseTitle(course.getCourseTitle());
-        courseInfo.setTeacherName(course.getTeacherName());
-        courseInfo.setPrice(course.getPrice());
+        courseInfo.setCourse(course);
         return courseInfo;
+    }
+
+    public Course getCourseById(Long id){
+        return courseRepository.findCourseById(id);
     }
 
     public List<UserCourseMap> getAllUserCourses(Long id){

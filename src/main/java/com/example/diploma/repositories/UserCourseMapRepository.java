@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface UserCourseMapRepository extends JpaRepository<UserCourseMap, UserCoursePK>{
-     @Query("select uc.progress from userСourse uc where uc.pk.user.id=?1")
-     Double findProgressByUserId(Long userId);
+
+     Double findPk_ProgressByPk_User(User user);
 
      List<UserCourseMap> findUserCourseMapByPk_User(User user);
 

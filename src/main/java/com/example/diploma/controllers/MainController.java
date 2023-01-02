@@ -1,5 +1,6 @@
 package com.example.diploma.controllers;
 
+import com.example.diploma.enteties.Role;
 import com.example.diploma.enteties.User;
 import com.example.diploma.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -47,6 +48,8 @@ public class MainController {
 
     @PostMapping("/registration")
     public String registrationPostMethod(@ModelAttribute("user") User user){
+        user.setStatus(true);
+        user.setRole(Role.STUDENT);
         service.saveUser(user);
         return "redirect:authorization";
     }
@@ -67,7 +70,10 @@ public class MainController {
             return "redirect:authorization";
         }
         session.setAttribute("user", user1);
-        return "redirect:teacher/createCourse";
+        if(user1.getRole().equals(Role.TEACHER)){
+            return "redirect:teacher/courses";
+        }
+        return "redirect:student/mainPage";
     }
 
 }

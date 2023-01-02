@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New material</title>
+</head>
+<body>
+<div th:replace="header :: content"></div>
+<form method="post" th:action="@{/teacher/{id}/newMaterial(id=${id})}" th:object="${courseMaterial}">
+    <div>
+        <input type="text" name="videoUrl" placeholder="video url">
+    </div>
+    <div>
+        <input type="text" name="documentUrl" placeholder="document url">
+    </div>
+    <div>
+        <input type="text" name="materialName" placeholder="material name">
+    </div>
+    <div>
+        <textarea name="description" placeholder="description"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="create course">
+    </div>
+</form>
+</body>
+</html>

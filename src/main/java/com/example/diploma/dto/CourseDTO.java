@@ -1,39 +1,22 @@
 package com.example.diploma.dto;
 
+import com.example.diploma.enteties.Course;
 import com.example.diploma.enteties.CourseMaterial;
 
 import java.util.List;
 
 public class CourseDTO {
 
-    private String courseTitle;
-    private Double price;
-    private String teacherName;
+    private Course course;
     private List<CourseMaterial> courseMaterials;
 
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public List<CourseMaterial> getCourseMaterials() {

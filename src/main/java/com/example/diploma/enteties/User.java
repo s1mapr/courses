@@ -46,12 +46,11 @@ public class User {
     @Column(name="status")
     private Boolean status;
 
-    @Column(
-            name="role",
-            nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
-    public User(Long id, String firstName, String lastName, String email, Integer age, String login, String password, Boolean status, String role) {
+    public User(Long id, String firstName, String lastName, String email, Integer age, String login, String password, Boolean status, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -130,11 +129,11 @@ public class User {
         this.status = status;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
