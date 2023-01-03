@@ -2,8 +2,10 @@ package com.example.diploma.service;
 
 import com.example.diploma.dto.CourseDTO;
 import com.example.diploma.enteties.Course;
+import com.example.diploma.enteties.CourseMaterial;
 import com.example.diploma.enteties.User;
 import com.example.diploma.enteties.UserCourseMap;
+import com.example.diploma.repositories.CourseMaterialRepository;
 import com.example.diploma.repositories.CourseRepository;
 import com.example.diploma.repositories.UserCourseMapRepository;
 import com.example.diploma.repositories.UserRepository;
@@ -19,9 +21,14 @@ public class CourseService {
 
     private UserRepository userRepository;
 
-
+    private CourseMaterialRepository courseMaterialRepository;
 
     private UserCourseMapRepository userCourseMapRepository;
+
+    @Autowired
+    public void setCourseMaterialRepository(CourseMaterialRepository courseMaterialRepository) {
+        this.courseMaterialRepository = courseMaterialRepository;
+    }
 
     @Autowired
     public void setUserCourseMapRepository(UserCourseMapRepository userCourseMapRepository) {
@@ -38,22 +45,24 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public void createCourse(Course course){
+    public void createCourse(Course course) {
         courseRepository.save(course);
     }
 
-    public CourseDTO getCourseData(Long id){
+    public CourseDTO getCourseData(Long id) {
         Course course = courseRepository.findCourseById(id);
+        List<CourseMaterial> courseMaterialList = courseMaterialRepository.getCourseMaterialsByCourse(course);
         CourseDTO courseInfo = new CourseDTO();
         courseInfo.setCourse(course);
+        courseInfo.setCourseMaterials(courseMaterialList);
         return courseInfo;
     }
 
-    public Course getCourseById(Long id){
+    public Course getCourseById(Long id) {
         return courseRepository.findCourseById(id);
     }
 
-    public List<UserCourseMap> getAllUserCourses(Long id){
+    public List<UserCourseMap> getAllUserCourses(Long id) {
         User user = userRepository.findUserById(id);
         return userCourseMapRepository.findUserCourseMapByPk_User(user);
     }

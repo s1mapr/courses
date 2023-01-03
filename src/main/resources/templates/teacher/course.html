@@ -8,6 +8,11 @@
     <p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
     <p th:text="${courseInfo.getCourse().getTeacherName()}"></p>
     <p th:text="${courseInfo.getCourse().getPrice()}"></p>
-    <a th:href="@{/teacher/{id}/newMaterial(id=${courseInfo.getCourse().getId()})}" >add new material</a>
+    <a th:href="@{/teacher/course/{id}/newMaterial(id=${id})}" >add new material</a>
+    <div th:each="element : ${courseInfo.getCourseMaterials()}">
+        <div>
+            <a th:href="@{/teacher/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId = ${element.courseMaterialId})}" th:text="${element.materialName}"></a>
+        </div>
+    </div>
 </body>
 </html>

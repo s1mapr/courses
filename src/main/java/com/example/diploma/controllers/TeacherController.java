@@ -6,6 +6,8 @@ import com.example.diploma.repositories.CourseMaterialRepository;
 import com.example.diploma.service.CourseMaterialService;
 import com.example.diploma.service.CourseService;
 import com.example.diploma.service.UserCourseMapService;
+import com.example.diploma.utils.YouTubeLinkParser;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,7 +68,7 @@ public class TeacherController {
         return "teacher/courses";
     }
 
-    @GetMapping("/{id}/course")
+    @GetMapping("/course/{id}")
     public String getCourse(@PathVariable("id") Long id
                             , Model model){
         CourseDTO courseInfo = courseService.getCourseData(id);
@@ -74,24 +76,32 @@ public class TeacherController {
         return "teacher/course";
     }
 
-    @GetMapping("/{id}/newMaterial")
+    @GetMapping("/course/{id}/newMaterial")
     public String addNewMaterialGetMethod(@PathVariable("id") Long id
             ,Model model){
-        Course course = courseService.getCourseById(id);
-        model.addAttribute("course", course);
         model.addAttribute("courseMaterial", new CourseMaterial());
         return "teacher/newMaterial";
     }
 
-    @PostMapping("/{id}/newMaterial")
+    @PostMapping("/course/newMaterial")
     public String addNewMaterialPostMethod(
-            @PathVariable("id") Long id,
-            @ModelAttribute("courseMaterial") CourseMaterial courseMaterial){
+            @ModelAttribute("courseMaterial") CourseMaterial courseMaterial,
+            HttpServletRequest request){
+        Long id = Long.parseLong(request.getParameter("cId"));
         Course course = courseService.getCourseById(id);
         courseMaterial.setCourse(course);
+        String videoLink = courseMaterial.getVideoUrl();
+        String parsedVideoLink = YouTubeLinkParser.parseLink(videoLink);
+        courseMaterial.setVideoUrl(parsedVideoLink);
         courseMaterialService.saveCourseMaterial(courseMaterial);
-        return "redirect:course";
+        return "redirect:"+ id +"/courseMaterial/" + courseMaterial.getCourseMaterialId();
+    }
 
+    @GetMapping("/course/{idOfCourse}/courseMaterial/{idOfMaterial}")
+    public String getCourseMaterial(@PathVariable("idOfCourse") Long courseId,
+                                    @PathVariable("idOfMaterial") Long courseMaterialId,
+                                    Model model){
+        return "teacher/material";
     }
 
 }

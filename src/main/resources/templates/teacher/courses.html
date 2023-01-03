@@ -8,7 +8,7 @@
 
 <div th:each="element : ${courses}">
   <div>
-    <a th:href="@{/teacher/{id}/course(id=${element.pk.course.id})}" th:text="${element.pk.course.courseTitle}"></a>
+    <a th:href="@{/teacher/course/{id}(id=${element.pk.course.id})}" th:text="${element.pk.course.courseTitle}"></a>
   </div>
 </div>
 
