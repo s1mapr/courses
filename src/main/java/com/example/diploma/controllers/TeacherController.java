@@ -101,6 +101,8 @@ public class TeacherController {
     public String getCourseMaterial(@PathVariable("idOfCourse") Long courseId,
                                     @PathVariable("idOfMaterial") Long courseMaterialId,
                                     Model model){
+        CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(courseMaterialId);
+        model.addAttribute("courseMaterial", courseMaterial);
         return "teacher/material";
     }
 

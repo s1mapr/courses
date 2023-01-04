@@ -19,5 +19,8 @@ public class CourseMaterialService {
         courseMaterialRepository.save(courseMaterial);
     }
 
+    public CourseMaterial getCourseMaterialByCourseMaterialId(Long id){
+        return courseMaterialRepository.getCourseMaterialByCourseMaterialId(id);
+    }
 
 }

@@ -12,4 +12,6 @@ public interface CourseMaterialRepository extends JpaRepository<CourseMaterial, 
 
     List<CourseMaterial> getCourseMaterialsByCourse(Course course);
 
+    CourseMaterial getCourseMaterialByCourseMaterialId(Long id);
+
 }
