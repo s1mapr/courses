@@ -3,9 +3,7 @@ package com.example.diploma.controllers;
 import com.example.diploma.dto.CourseDTO;
 import com.example.diploma.enteties.*;
 import com.example.diploma.repositories.CourseMaterialRepository;
-import com.example.diploma.service.CourseMaterialService;
-import com.example.diploma.service.CourseService;
-import com.example.diploma.service.UserCourseMapService;
+import com.example.diploma.service.*;
 import com.example.diploma.utils.YouTubeLinkParser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +23,20 @@ public class TeacherController {
     private UserCourseMapService userCourseMapService;
 
     private CourseMaterialService courseMaterialService;
+
+    private TaskService taskService;
+
+    private VariantService variantService;
+
+    @Autowired
+    public void setVariantService(VariantService variantService) {
+        this.variantService = variantService;
+    }
+
+    @Autowired
+    public void setTaskService(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @Autowired
     public void setCourseMaterialService(CourseMaterialService courseMaterialService) {
@@ -102,8 +114,35 @@ public class TeacherController {
                                     @PathVariable("idOfMaterial") Long courseMaterialId,
                                     Model model){
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(courseMaterialId);
+        List<Task> listOfTasks = taskService.getMaterialTasks(courseMaterial);
         model.addAttribute("courseMaterial", courseMaterial);
+        model.addAttribute("task", new Task());
+        model.addAttribute("variant", new Variant());
+        model.addAttribute("tasks", listOfTasks);
         return "teacher/material";
     }
 
+    @PostMapping("/createNewTask")
+    public String createNewTask(
+            @ModelAttribute("task") Task task,
+            HttpServletRequest request){
+        long courseId = Long.parseLong(request.getParameter("cId"));
+        long materialId = Long.parseLong(request.getParameter("cmId"));
+        CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
+        task.setCourseMaterial(courseMaterial);
+        taskService.saveTask(task);
+        return "redirect:course/" + courseId + "/courseMaterial/" + materialId;
+    }
+
+    @PostMapping("/createNewVariant")
+    public String createNewVariant(HttpServletRequest request,
+                                   @ModelAttribute("variant") Variant variant){
+        long courseId = Long.parseLong(request.getParameter("cId"));
+        long materialId = Long.parseLong(request.getParameter("cmId"));
+        long taskId = Long.parseLong(request.getParameter("taskId"));
+        Task task = taskService.getTaskById(taskId);
+        variant.setTask(task);
+        variantService.saveVariant(variant);
+        return "redirect:course/" + courseId + "/courseMaterial/" + materialId;
+    }
 }

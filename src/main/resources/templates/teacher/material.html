@@ -6,6 +6,50 @@
 </head>
 <body>
 new material
+<div>
 <iframe width="560" height="315" th:src="${courseMaterial.videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<div th:each="element : ${tasks}">
+    <div>
+
+        <a th:text="${element.taskName}"></a>
+        <div th:each="variants: ${element.getListOfVariants()}">
+            <p th:text="${variants.value}"></p>
+        </div>
+        <form method="post" th:action="@{/teacher/createNewVariant}" th:object="${variant}">
+            <div>
+                <input type="text" name="value" placeholder="value">
+            </div>
+            <input type="checkbox" name="status">
+            <div>
+                <input type="hidden" name="taskId" th:value="${element.id}">
+            </div>
+            <div>
+                <input type="hidden" name="cId" th:value="${idOfCourse}">
+            </div>
+            <div>
+                <input type="hidden" name="cmId" th:value="${idOfMaterial}">
+            </div>
+
+            <div>
+                <input type="submit" value="create variant">
+            </div>
+        </form>
+    </div>
+</div>
+
+<form method="post" th:action="@{/teacher/createNewTask}" th:object="${task}">
+    <input name="taskName" placeholder="task name">
+    <textarea name="description" placeholder="description"></textarea>
+    <div>
+        <input type="hidden" name="cId" th:value="${idOfCourse}">
+    </div>
+    <div>
+        <input type="hidden" name="cmId" th:value="${idOfMaterial}">
+    </div>
+    <input type="submit" value="create task">
+</form>
+
+
 </body>
 </html>
