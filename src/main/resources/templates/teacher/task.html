@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <style>
+        #modalForm{
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 150;
+            display: none;
+            margin: 0 auto;
+            width: 450px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div id="block">
+
+</div>
+
+<div id="modalForm">
+    <input type="checkbox" name="modalStatus" class="modalStatus">
+    <input type="text" name="modalValue" class="modalValue">
+    <input type="submit" value="save" class="modalSave">
+
+</div>
+
+<input type="text" name="value" class="value">
+<input type="checkbox" name="status" class="status">
+<input type="hidden" name="taskId" th:value="${taskId}" class="taskId">
+<input type="submit" value="submit" class="submit">
+
+
+<script>
+    $(document).ready(function (){
+        showTableFunction();
+        $('input.submit').on('click', function (){
+            let valueVar = $('input.value').val();
+            let statusVar = $('input.status').val();
+            let taskIdVar = $('input.taskId').val();
+            console.log('tut')
+            $.ajax({
+                method:"POST",
+                url:"/teacher/course/createNewVariant",
+                data:{value: valueVar, status: statusVar, taskId:taskIdVar},
+                success: function (){
+                    showTableFunction();
+                }
+            })
+            $('input.value').val('');
+            $('input.status').val('');
+        });
+
+        $('input.modalSave').on('click', function (){
+            let modalValueVar = $('input.modalValue').val();
+            let modelStatusVar = $('input.modalStatus').val();
+            let modelVariantIdVar = $('input.modalId').val();
+            let taskIdVar = $('input.taskId').val();
+
+            $.ajax({
+                method: "POST",
+                url:"/teacher/course/updateVariant",
+                data:{value: modalValueVar, status: modelStatusVar, id:modelVariantIdVar, taskId:taskIdVar},
+                success: function (){
+                    showTableFunction();
+                    console.log("aaaa")
+                }
+            })
+
+        })
+
+
+    });
+
+    function showTableFunction(){
+        $("#temp").remove();
+        taskId = $('input.taskId').val();
+        url = '/teacher/course/task/'+taskId+'/variants';
+        htmlOutput = '<div id="temp">';
+        $.get(url, function (responseJSON){
+            $.each(responseJSON, function (index, variants){
+                htmlOutput +=
+                    '<div><p>' + variants.value + '' +
+                    '</p>' +
+                    '<button id="'+ variants.id +'" onclick="showWindow(this)"> edit</button>' +
+                    '</div>';
+            });
+            htmlOutput += '</div>';
+        }).done(function (){
+            $("#block").append(htmlOutput);
+        })
+    }
+
+
+    function showWindow(id){
+        $("#modalDiv").remove();
+        $("#modalForm").append(
+            '<div id="modalDiv">' +
+            '<input type="hidden" class="modalId" name="modalId" value="'+id.id +'">' +
+            '</div>')
+        document.getElementById('modalForm').style.display = 'block';
+    }
+</script>
+</body>
+</html>

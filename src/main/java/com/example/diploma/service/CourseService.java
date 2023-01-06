@@ -66,4 +66,9 @@ public class CourseService {
         User user = userRepository.findUserById(id);
         return userCourseMapRepository.findUserCourseMapByPk_User(user);
     }
+
+    public List<Course> findAllCourses(){
+        return courseRepository.findAll();
+    }
+
 }

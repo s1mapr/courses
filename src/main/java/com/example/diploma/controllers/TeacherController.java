@@ -134,15 +134,4 @@ public class TeacherController {
         return "redirect:course/" + courseId + "/courseMaterial/" + materialId;
     }
 
-    @PostMapping("/createNewVariant")
-    public String createNewVariant(HttpServletRequest request,
-                                   @ModelAttribute("variant") Variant variant){
-        long courseId = Long.parseLong(request.getParameter("cId"));
-        long materialId = Long.parseLong(request.getParameter("cmId"));
-        long taskId = Long.parseLong(request.getParameter("taskId"));
-        Task task = taskService.getTaskById(taskId);
-        variant.setTask(task);
-        variantService.saveVariant(variant);
-        return "redirect:course/" + courseId + "/courseMaterial/" + materialId;
-    }
 }

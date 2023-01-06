@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
 </head>
 <body>
-<a>main page</a>
-<a th:href="@{/student/courses}">Каталог</a>
-<a>Моє навчання</a>
+
+
+<div th:each="element : ${courses}">
+  <div>
+      <a th:text="${element.courseTitle}"></a>
+  </div>
+</div>
+
 </body>
 </html>

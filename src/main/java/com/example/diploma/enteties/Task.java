@@ -24,8 +24,6 @@ public class Task {
     @JoinColumn(name = "course_material_id", referencedColumnName = "id")
     private CourseMaterial courseMaterial;
 
-    @OneToMany(mappedBy = "task")
-    private List<Variant> listOfVariants;
 
     public Long getId() {
         return id;
@@ -57,13 +55,5 @@ public class Task {
 
     public void setCourseMaterial(CourseMaterial courseMaterial) {
         this.courseMaterial = courseMaterial;
-    }
-
-    public List<Variant> getListOfVariants() {
-        return listOfVariants;
-    }
-
-    public void setListOfVariants(List<Variant> listOfVariants) {
-        this.listOfVariants = listOfVariants;
     }
 }
