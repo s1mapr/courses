@@ -2,7 +2,6 @@ package com.example.diploma.controllers;
 
 import com.example.diploma.dto.CourseDTO;
 import com.example.diploma.enteties.*;
-import com.example.diploma.repositories.CourseMaterialRepository;
 import com.example.diploma.service.*;
 import com.example.diploma.utils.YouTubeLinkParser;
 import jakarta.servlet.http.HttpServletRequest;

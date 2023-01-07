@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<div th:replace="header :: content"></div>
+<div th:replace="teacher/header :: content"></div>
 <form method="post" th:action="@{/teacher/createCourse}" th:object="${course}">
     <div>
         <input type="text" name="courseTitle" placeholder="course title">

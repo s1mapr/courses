@@ -5,6 +5,8 @@
     <title th:text="${courseInfo.getCourse().getCourseTitle()}">Course name</title>
 </head>
 <body>
+<div th:replace="teacher/header :: content"></div>
+
     <p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
     <p th:text="${courseInfo.getCourse().getTeacherName()}"></p>
     <p th:text="${courseInfo.getCourse().getPrice()}"></p>

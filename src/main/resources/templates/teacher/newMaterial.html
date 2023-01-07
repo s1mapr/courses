@@ -5,7 +5,7 @@
     <title>New material</title>
 </head>
 <body>
-<div th:replace="header :: content"></div>
+<div th:replace="teacher/header :: content"></div>
 <form method="post" th:action="@{/teacher/course/newMaterial}" th:object="${courseMaterial}">
     <div>
         <input type="text" name="videoUrl" placeholder="video url">

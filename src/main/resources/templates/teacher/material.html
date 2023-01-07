@@ -5,8 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-
-new material
+<div th:replace="teacher/header :: content"></div>
 <div>
 <iframe width="560" height="315" th:src="${courseMaterial.videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>

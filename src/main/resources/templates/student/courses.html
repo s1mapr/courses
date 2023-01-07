@@ -3,14 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .block {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-
-
+<div th:replace="student/header :: content"></div>
 <div th:each="element : ${courses}">
-  <div>
-      <a th:text="${element.courseTitle}"></a>
-  </div>
+    <div>
+        <div th:class='${element.id}' th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''">
+            <a th:text="${element.courseTitle}"></a><br>
+            <p th:text="${element.teacherName}"></p>
+            <p th:text="${element.price}"></p><br>
+        </div>
+    </div>
 </div>
 
 </body>

@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+<div th:replace="teacher/header :: content"></div>
 <div id="block">
 
 </div>
@@ -45,11 +46,7 @@
             let valueVar = $('input.value').val();
             let statusVar;
             let taskIdVar = $('input.taskId').val();
-            if(document.querySelector('.status').checked){
-                statusVar = true;
-            }else{
-                statusVar = false;
-            }
+            statusVar = document.querySelector('.status').checked;
             $.ajax({
                 method:"POST",
                 url:"/teacher/course/createNewVariant",
@@ -57,6 +54,7 @@
                 success: function (){
                     showTableFunction();
                 }
+
             })
             $('input.value').val('');
         });
@@ -130,8 +128,6 @@
             }
         })
     }
-
-
 
 </script>
 </body>
