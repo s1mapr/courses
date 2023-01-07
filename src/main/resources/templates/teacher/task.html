@@ -29,6 +29,7 @@
     <input type="text" name="modalValue" class="modalValue">
     <input type="submit" value="save" class="modalSave">
 
+
 </div>
 
 <input type="text" name="value" class="value">
@@ -42,9 +43,13 @@
         showTableFunction();
         $('input.submit').on('click', function (){
             let valueVar = $('input.value').val();
-            let statusVar = $('input.status').val();
+            let statusVar;
             let taskIdVar = $('input.taskId').val();
-            console.log('tut')
+            if(document.querySelector('.status').checked){
+                statusVar = true;
+            }else{
+                statusVar = false;
+            }
             $.ajax({
                 method:"POST",
                 url:"/teacher/course/createNewVariant",
@@ -54,22 +59,25 @@
                 }
             })
             $('input.value').val('');
-            $('input.status').val('');
         });
 
         $('input.modalSave').on('click', function (){
             let modalValueVar = $('input.modalValue').val();
-            let modelStatusVar = $('input.modalStatus').val();
+            let modelStatusVar;
             let modelVariantIdVar = $('input.modalId').val();
             let taskIdVar = $('input.taskId').val();
-
+            if(document.querySelector('.modalStatus').checked){
+                modelStatusVar = true;
+            }else{
+                modelStatusVar = false;
+            }
             $.ajax({
                 method: "POST",
                 url:"/teacher/course/updateVariant",
                 data:{value: modalValueVar, status: modelStatusVar, id:modelVariantIdVar, taskId:taskIdVar},
                 success: function (){
                     showTableFunction();
-                    console.log("aaaa")
+                    hideWindow();
                 }
             })
 
@@ -86,9 +94,10 @@
         $.get(url, function (responseJSON){
             $.each(responseJSON, function (index, variants){
                 htmlOutput +=
-                    '<div><p>' + variants.value + '' +
-                    '</p>' +
+                    '<div>' +
+                    '<p>' + variants.value + '</p>' +
                     '<button id="'+ variants.id +'" onclick="showWindow(this)"> edit</button>' +
+                    '<button class="remove" id="'+ variants.id +'" onclick="removeVariant(this)"> remove</button>' +
                     '</div>';
             });
             htmlOutput += '</div>';
@@ -106,6 +115,24 @@
             '</div>')
         document.getElementById('modalForm').style.display = 'block';
     }
+
+    function hideWindow(){
+        document.getElementById('modalForm').style.display = 'none';
+    }
+
+    function removeVariant(target){
+        $.ajax({
+            method: "POST",
+            url:"/teacher/course/deleteVariant",
+            data:{id:target.id},
+            success: function (){
+                showTableFunction();
+            }
+        })
+    }
+
+
+
 </script>
 </body>
 </html>

@@ -25,4 +25,8 @@ public class VariantService {
     public List<Variant> getListOfVariants(Task task){
         return variantRepository.getVariantByTask(task);
     }
+
+    public void deleteVariantById(Long id){
+        variantRepository.deleteById(id);
+    }
 }
