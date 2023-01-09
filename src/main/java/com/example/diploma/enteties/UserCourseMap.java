@@ -18,6 +18,7 @@ public class UserCourseMap {
     public UserCourseMap() {
     }
 
+
     public UserCourseMap(UserCoursePK pk, Double progress) {
         this.pk = pk;
         this.progress = progress;

@@ -2,9 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Курс</title>
 </head>
 <body>
-sadsad
+<div th:replace="student/header :: content"></div>
+<p th:text="${courseDTO.course.getCourseTitle()}"></p>
+<div>
+    <iframe width="560" height="315" th:src="${courseDTO.course.introUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<div th:switch="${wasBought}">
+    <div th:case="true">
+        <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
+            <a th:text="${courseMaterial.materialName}"></a>
+        </div>
+    </div>
+    <div th:case="false">
+        <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
+            <p th:text="${courseMaterial.materialName}"></p>
+        </div>
+        <a th:href="@{/student/course/{id}/buy(id=${id})}">buy</a>
+    </div>
+</div>
+
 </body>
 </html>

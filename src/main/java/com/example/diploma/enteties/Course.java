@@ -35,14 +35,22 @@ public class Course {
     private String teacherName;
 
 
+    @Column(name="description")
+    private String description;
+
+    @Column(name="intro_url")
+    private String introUrl;
+
     public Course() {
     }
 
-    public Course(Long id, String courseTitle, Double price, String teacherName) {
+    public Course(Long id, String courseTitle, Double price, String teacherName, String description, String introUrl) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.price = price;
         this.teacherName = teacherName;
+        this.description = description;
+        this.introUrl = introUrl;
     }
 
     public Long getId() {
@@ -75,6 +83,22 @@ public class Course {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIntroUrl() {
+        return introUrl;
+    }
+
+    public void setIntroUrl(String introUrl) {
+        this.introUrl = introUrl;
     }
 
     @Override

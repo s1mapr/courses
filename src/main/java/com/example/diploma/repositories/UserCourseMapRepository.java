@@ -17,6 +17,8 @@ public interface UserCourseMapRepository extends JpaRepository<UserCourseMap, Us
 
      List<UserCourseMap> findUserCourseMapByPk_User(User user);
 
+     List<UserCourseMap> findUserCourseMapByPk_Course(Course course);
+
 }
 
 
