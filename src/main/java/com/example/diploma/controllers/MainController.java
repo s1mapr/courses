@@ -2,6 +2,7 @@ package com.example.diploma.controllers;
 
 import com.example.diploma.enteties.Role;
 import com.example.diploma.enteties.User;
+import com.example.diploma.service.UserCourseMapService;
 import com.example.diploma.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,13 @@ import java.util.Objects;
 public class MainController {
 
     private UserService service;
+
+    private UserCourseMapService userCourseMapService;
+
+    @Autowired
+    public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
+        this.userCourseMapService = userCourseMapService;
+    }
 
     @Autowired
     public void setService(UserService service) {
@@ -74,5 +82,6 @@ public class MainController {
         }
         return "redirect:student/mainPage";
     }
+
 
 }

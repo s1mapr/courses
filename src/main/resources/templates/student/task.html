@@ -20,11 +20,7 @@
         let checkboxes = document.getElementsByClassName(obj.id);
         let answer = '';
         for (let index = 0; index < checkboxes.length; index++) {
-            if (checkboxes[index].checked) {
-                answer += "1";
-            }else{
-                answer += "0";
-            }
+            checkboxes[index].checked?answer+="1":answer+="0";
         }
         $.ajax({
             method: "POST",

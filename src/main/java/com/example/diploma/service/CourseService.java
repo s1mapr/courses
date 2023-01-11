@@ -21,14 +21,17 @@ public class CourseService {
 
     private UserRepository userRepository;
 
-    private CourseMaterialRepository courseMaterialRepository;
+    private CourseMaterialService courseMaterialService;
 
     private UserCourseMapRepository userCourseMapRepository;
 
     @Autowired
-    public void setCourseMaterialRepository(CourseMaterialRepository courseMaterialRepository) {
-        this.courseMaterialRepository = courseMaterialRepository;
+    public void setCourseMaterialService(CourseMaterialService courseMaterialService) {
+        this.courseMaterialService = courseMaterialService;
     }
+
+
+
 
     @Autowired
     public void setUserCourseMapRepository(UserCourseMapRepository userCourseMapRepository) {
@@ -51,7 +54,7 @@ public class CourseService {
 
     public CourseDTO getCourseData(Long id) {
         Course course = courseRepository.findCourseById(id);
-        List<CourseMaterial> courseMaterialList = courseMaterialRepository.getCourseMaterialsByCourse(course);
+        List<CourseMaterial> courseMaterialList = courseMaterialService.getCourseMaterialsByCourse(course);
         CourseDTO courseInfo = new CourseDTO();
         courseInfo.setCourse(course);
         courseInfo.setCourseMaterials(courseMaterialList);

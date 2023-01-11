@@ -27,6 +27,13 @@ public class TeacherController {
 
     private VariantService variantService;
 
+    private UserMaterialMapService userMaterialMapService;
+
+    @Autowired
+    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
+        this.userMaterialMapService = userMaterialMapService;
+    }
+
     @Autowired
     public void setVariantService(VariantService variantService) {
         this.variantService = variantService;
@@ -105,6 +112,7 @@ public class TeacherController {
         String parsedVideoLink = YouTubeLinkParser.parseLink(videoLink);
         courseMaterial.setVideoUrl(parsedVideoLink);
         courseMaterialService.saveCourseMaterial(courseMaterial);
+        userMaterialMapService.addMaterialForAllUsers(courseMaterial);
         return "redirect:"+ id +"/courseMaterial/" + courseMaterial.getCourseMaterialId();
     }
 

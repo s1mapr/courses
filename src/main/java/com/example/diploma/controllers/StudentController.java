@@ -36,6 +36,13 @@ public class StudentController {
 
     private VariantService variantService;
 
+    private UserMaterialMapService userMaterialMapService;
+
+    @Autowired
+    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
+        this.userMaterialMapService = userMaterialMapService;
+    }
+
     @Autowired
     public void setVariantService(VariantService variantService) {
         this.variantService = variantService;
@@ -101,6 +108,7 @@ public class StudentController {
         User user = (User) session.getAttribute("user");
         UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), 0.0);
         userCourseMapService.saveUserCourseMap(userCourseMap);
+        userMaterialMapService.addAllMaterialsUser(user, course);
         return "redirect:course/" + id;
     }
 
