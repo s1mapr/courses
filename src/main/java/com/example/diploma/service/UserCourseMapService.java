@@ -32,4 +32,8 @@ public class UserCourseMapService {
     public List<UserCourseMap> getListOfUserCourseMapsByUser(User user){
         return userCourseMapRepository.findUserCourseMapByPk_User(user);
     }
+
+    public boolean checkUserCourseMapIfExist(User user, Course course){
+        return userCourseMapRepository.existsUserCourseMapByPk_UserAndPk_Course(user, course);
+    }
 }

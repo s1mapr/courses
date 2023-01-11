@@ -5,7 +5,7 @@
     <title>Курс</title>
 </head>
 <body>
-<div th:replace="student/header :: content"></div>
+<div th:replace="~{student/header :: content}"></div>
 <p th:text="${courseDTO.course.getCourseTitle()}"></p>
 <div>
     <iframe width="560" height="315" th:src="${courseDTO.course.introUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -13,7 +13,7 @@
 <div th:switch="${wasBought}">
     <div th:case="true">
         <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
-            <a th:text="${courseMaterial.materialName}"></a>
+            <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId=${courseMaterial.courseMaterialId})}" th:text="${courseMaterial.materialName}"></a>
         </div>
     </div>
     <div th:case="false">
