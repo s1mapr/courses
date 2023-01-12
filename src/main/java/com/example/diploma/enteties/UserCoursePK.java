@@ -1,5 +1,6 @@
 package com.example.diploma.enteties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -8,11 +9,11 @@ import java.io.Serializable;
 
 @Embeddable
 public class UserCoursePK implements Serializable {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="course_id")
     private Course course;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_id")
     private User user;
 

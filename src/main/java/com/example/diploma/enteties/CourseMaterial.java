@@ -26,7 +26,7 @@ public class CourseMaterial {
     @Column(name="description")
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;
 

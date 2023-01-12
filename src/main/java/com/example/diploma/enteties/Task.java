@@ -20,7 +20,7 @@ public class Task {
             nullable = false)
     private String taskName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_material_id", referencedColumnName = "id")
     private CourseMaterial courseMaterial;
 

@@ -36,10 +36,6 @@ public class TeacherCourseRestController {
                                    @ModelAttribute("variant") Variant variant){
         long taskId = Long.parseLong(request.getParameter("taskId"));
         Task task = taskService.getTaskById(taskId);
-        System.out.println(variant.getStatus());
-        if(Objects.isNull(variant.getStatus())){
-            variant.setStatus(false);
-        }
         variant.setTask(task);
         variantService.saveVariant(variant);
     }

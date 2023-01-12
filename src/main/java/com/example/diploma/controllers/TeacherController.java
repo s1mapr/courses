@@ -25,19 +25,28 @@ public class TeacherController {
 
     private TaskService taskService;
 
-    private VariantService variantService;
 
     private UserMaterialMapService userMaterialMapService;
+
+    private UserTaskMapService userTaskMapService;
+
+    private TaskMaterialService taskMaterialService;
+
+    @Autowired
+    public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
+        this.taskMaterialService = taskMaterialService;
+    }
+
+    @Autowired
+    public void setUserTaskMapService(UserTaskMapService userTaskMapService) {
+        this.userTaskMapService = userTaskMapService;
+    }
 
     @Autowired
     public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
         this.userMaterialMapService = userMaterialMapService;
     }
 
-    @Autowired
-    public void setVariantService(VariantService variantService) {
-        this.variantService = variantService;
-    }
 
     @Autowired
     public void setTaskService(TaskService taskService) {
@@ -130,15 +139,15 @@ public class TeacherController {
     }
 
     @PostMapping("/createNewTask")
-    public String createNewTask(
-            @ModelAttribute("task") Task task,
-            HttpServletRequest request){
+    public String createNewTask(@ModelAttribute("task") Task task,
+                                HttpServletRequest request){
         long courseId = Long.parseLong(request.getParameter("cId"));
         long materialId = Long.parseLong(request.getParameter("cmId"));
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
         task.setCourseMaterial(courseMaterial);
         taskService.saveTask(task);
-        return "redirect:course/" + courseId + "/courseMaterial/" + materialId;
+        taskMaterialService.addTaskForAllUsers(task);
+        return "redirect:course/" + courseId + "/courseMaterial/" + materialId + "/task/" + task.getId();
     }
 
 }

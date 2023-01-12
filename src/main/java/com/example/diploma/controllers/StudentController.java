@@ -38,6 +38,13 @@ public class StudentController {
 
     private UserMaterialMapService userMaterialMapService;
 
+    private TaskMaterialService taskMaterialService;
+
+    @Autowired
+    public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
+        this.taskMaterialService = taskMaterialService;
+    }
+
     @Autowired
     public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
         this.userMaterialMapService = userMaterialMapService;
@@ -108,7 +115,7 @@ public class StudentController {
         User user = (User) session.getAttribute("user");
         UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), 0.0);
         userCourseMapService.saveUserCourseMap(userCourseMap);
-        userMaterialMapService.addAllMaterialsUser(user, course);
+        taskMaterialService.addAllMaterialsUser(user, course);
         return "redirect:course/" + id;
     }
 

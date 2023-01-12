@@ -1,9 +1,7 @@
 package com.example.diploma.service;
 
 import com.example.diploma.enteties.*;
-import com.example.diploma.repositories.UserCourseMapRepository;
 import com.example.diploma.repositories.UserMaterialMapRepository;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +15,6 @@ public class UserMaterialMapService {
     private UserCourseMapService userCourseMapService;
 
 
-    private CourseMaterialService courseMaterialService;
 
     @Autowired
     public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
@@ -29,24 +26,10 @@ public class UserMaterialMapService {
         this.userMaterialMapRepository = userMaterialMapRepository;
     }
 
-    @Autowired
-    public void setCourseMaterialService(CourseMaterialService courseMaterialService) {
-        this.courseMaterialService = courseMaterialService;
-    }
-
-
     public void saveMaterial(UserCourseMaterialMap userCourseMaterialMap){
         userMaterialMapRepository.save(userCourseMaterialMap);
     }
 
-    public void addAllMaterialsUser(User user, Course course) {
-        List<CourseMaterial> listOfMaterials = courseMaterialService.getCourseMaterialsByCourse(course);
-        new Thread(() -> {
-            for(CourseMaterial courseMaterial:listOfMaterials){
-                saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false));
-            }
-        }).start();
-    }
 
     public void addMaterialForAllUsers(CourseMaterial courseMaterial){
         Course course = courseMaterial.getCourse();
@@ -60,5 +43,9 @@ public class UserMaterialMapService {
                saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false));
            }
         }).start();
+    }
+
+    public List<UserCourseMaterialMap> getUserCourseMaterialMapByCourseMaterialAndUserRole(CourseMaterial courseMaterial, Role role){
+        return userMaterialMapRepository.findUserCourseMaterialMapByPkCourseMaterialAndPkUserRole(courseMaterial, role);
     }
 }

@@ -14,4 +14,29 @@ public class UserTaskMap {
     private UserTaskPK pk;
     @Column(name = "status")
     private Boolean status;
+
+
+    public UserTaskMap() {
+    }
+
+    public UserTaskMap(UserTaskPK pk, Boolean status) {
+        this.pk = pk;
+        this.status = status;
+    }
+
+    public UserTaskPK getPk() {
+        return pk;
+    }
+
+    public void setPk(UserTaskPK pk) {
+        this.pk = pk;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 }
