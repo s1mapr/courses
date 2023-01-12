@@ -11,4 +11,6 @@ import java.util.List;
 public interface VariantRepository extends JpaRepository<Variant, Long> {
 
     List<Variant> getVariantByTask(Task task);
+
+    List<Variant> getVariantByTaskId(Long id);
 }
