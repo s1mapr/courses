@@ -2,9 +2,11 @@ package com.example.diploma.enteties;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDate;
 import java.util.List;
-
 
 @Entity(name = "user")
 @Table(
@@ -45,6 +47,9 @@ public class User {
 
     @Column(name="status")
     private Boolean status;
+
+    @Column(name="registration_date")
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
@@ -135,6 +140,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     @Override

@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -31,6 +33,13 @@ public class TeacherController {
     private UserTaskMapService userTaskMapService;
 
     private TaskMaterialService taskMaterialService;
+
+    private AWSService awsService;
+
+    @Autowired
+    public void setAwsService(AWSService awsService) {
+        this.awsService = awsService;
+    }
 
     @Autowired
     public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
@@ -69,7 +78,7 @@ public class TeacherController {
     }
 
     @GetMapping("/createCourse")
-    public String createCourseGetMethod(Model model){
+    public String createCourseGetMethod(Model model) {
         model.addAttribute("course", new Course());
         return "teacher/createCourse";
     }
@@ -77,27 +86,30 @@ public class TeacherController {
     @PostMapping("/createCourse")
     public String createCoursePostMethod(
             @ModelAttribute("course") Course course,
-            HttpSession session){
-        User user = (User)session.getAttribute("user");
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
         String teacherName = user.getFirstName() + " " + user.getLastName();
         course.setTeacherName(teacherName);
-        courseService.createCourse(course);
+        course.setPictureUrl("/styles/defaultCourseImg.jpg");
+        courseService.saveCourse(course);
         userCourseMapService.saveUserCourseMap(new UserCourseMap(new UserCoursePK(course, user)));
-        return "redirect:" + course.getId() + "/course";
+        return "redirect:course/" + course.getId();
     }
 
     @GetMapping("courses")
     public String getTeacherCourses(Model model,
-                                    HttpSession session){
-        User user = (User)session.getAttribute("user");
+                                    HttpSession session) {
+        User user = (User) session.getAttribute("user");
         List<UserCourseMap> courses = courseService.getAllUserCourses(user.getId());
         model.addAttribute("courses", courses);
         return "teacher/courses";
     }
 
     @GetMapping("/course/{id}")
-    public String getCourse(@PathVariable("id") Long id
-                            , Model model){
+    public String getCourse(@PathVariable("id") Long id,
+                            Model model,
+                            HttpServletRequest request,
+                            HttpSession session) {
         CourseDTO courseInfo = courseService.getCourseData(id);
         model.addAttribute("courseInfo", courseInfo);
         return "teacher/course";
@@ -105,7 +117,7 @@ public class TeacherController {
 
     @GetMapping("/course/{id}/newMaterial")
     public String addNewMaterialGetMethod(@PathVariable("id") Long id
-            ,Model model){
+            , Model model) {
         model.addAttribute("courseMaterial", new CourseMaterial());
         return "teacher/newMaterial";
     }
@@ -113,7 +125,7 @@ public class TeacherController {
     @PostMapping("/course/newMaterial")
     public String addNewMaterialPostMethod(
             @ModelAttribute("courseMaterial") CourseMaterial courseMaterial,
-            HttpServletRequest request){
+            HttpServletRequest request) {
         Long id = Long.parseLong(request.getParameter("cId"));
         Course course = courseService.getCourseById(id);
         courseMaterial.setCourse(course);
@@ -122,13 +134,13 @@ public class TeacherController {
         courseMaterial.setVideoUrl(parsedVideoLink);
         courseMaterialService.saveCourseMaterial(courseMaterial);
         userMaterialMapService.addMaterialForAllUsers(courseMaterial);
-        return "redirect:"+ id +"/courseMaterial/" + courseMaterial.getCourseMaterialId();
+        return "redirect:" + id + "/courseMaterial/" + courseMaterial.getCourseMaterialId();
     }
 
     @GetMapping("/course/{idOfCourse}/courseMaterial/{idOfMaterial}")
     public String getCourseMaterial(@PathVariable("idOfCourse") Long courseId,
                                     @PathVariable("idOfMaterial") Long courseMaterialId,
-                                    Model model){
+                                    Model model) {
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(courseMaterialId);
         List<Task> listOfTasks = taskService.getMaterialTasks(courseMaterial);
         model.addAttribute("courseMaterial", courseMaterial);
@@ -140,7 +152,7 @@ public class TeacherController {
 
     @PostMapping("/createNewTask")
     public String createNewTask(@ModelAttribute("task") Task task,
-                                HttpServletRequest request){
+                                HttpServletRequest request) {
         long courseId = Long.parseLong(request.getParameter("cId"));
         long materialId = Long.parseLong(request.getParameter("cmId"));
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
@@ -148,6 +160,18 @@ public class TeacherController {
         taskService.saveTask(task);
         taskMaterialService.addTaskForAllUsers(task);
         return "redirect:course/" + courseId + "/courseMaterial/" + materialId + "/task/" + task.getId();
+    }
+
+
+    @PostMapping("/uploadCourseImg")
+    public String uploadCourseImage(@RequestParam("img") MultipartFile multipartFile,
+                                    HttpServletRequest request) throws IOException {
+        Long courseId = Long.parseLong(request.getParameter("cId"));
+        String url = awsService.putElement(multipartFile, courseId, "courseImg/");
+        Course course = courseService.getCourseById(courseId);
+        course.setPictureUrl(url);
+        courseService.saveCourse(course);
+        return "redirect:course/" + courseId;
     }
 
 }

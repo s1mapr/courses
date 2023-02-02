@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<div th:replace="student/header :: content"></div>
+<div th:replace="~{student/header :: content}"></div>
 <div th:each="element : ${courses}">
     <div>
         <div th:class='${element.id}' th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''">

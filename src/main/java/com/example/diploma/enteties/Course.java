@@ -2,7 +2,6 @@ package com.example.diploma.enteties;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 
 @Entity(name = "course")
 @Table(name = "course")
@@ -41,16 +40,22 @@ public class Course {
     @Column(name="intro_url")
     private String introUrl;
 
+    @Column(name="picture_url")
+    private String pictureUrl;
+
+
+
     public Course() {
     }
 
-    public Course(Long id, String courseTitle, Double price, String teacherName, String description, String introUrl) {
+    public Course(Long id, String courseTitle, Double price, String teacherName, String description, String introUrl, String pictureUrl) {
         this.id = id;
         this.courseTitle = courseTitle;
         this.price = price;
         this.teacherName = teacherName;
         this.description = description;
         this.introUrl = introUrl;
+        this.pictureUrl = pictureUrl;
     }
 
     public Long getId() {
@@ -99,6 +104,14 @@ public class Course {
 
     public void setIntroUrl(String introUrl) {
         this.introUrl = introUrl;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
     }
 
     @Override

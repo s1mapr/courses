@@ -4,17 +4,19 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 
 @Embeddable
 public class UserCoursePK implements Serializable {
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="course_id")
+    @ManyToOne()
+    @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Course getCourse() {

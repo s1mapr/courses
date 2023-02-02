@@ -5,7 +5,6 @@ import com.example.diploma.enteties.Course;
 import com.example.diploma.enteties.CourseMaterial;
 import com.example.diploma.enteties.User;
 import com.example.diploma.enteties.UserCourseMap;
-import com.example.diploma.repositories.CourseMaterialRepository;
 import com.example.diploma.repositories.CourseRepository;
 import com.example.diploma.repositories.UserCourseMapRepository;
 import com.example.diploma.repositories.UserRepository;
@@ -48,7 +47,7 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public void createCourse(Course course) {
+    public void saveCourse(Course course) {
         courseRepository.save(course);
     }
 

@@ -17,7 +17,7 @@ public class Variant {
             nullable = false)
     private Boolean status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(
             name="task_id",
             referencedColumnName = "id"

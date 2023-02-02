@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 @Controller
 public class MainController {
 
-    private UserService service;
+    private UserService userService;
 
     private UserCourseMapService userCourseMapService;
 
@@ -28,22 +29,14 @@ public class MainController {
     }
 
     @Autowired
-    public void setService(UserService service) {
-        this.service = service;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
 
     @GetMapping("/")
     public String getMainPage(){
-        return "redirect:mainPage";
-    }
-
-
-    @GetMapping("/mainPage")
-    public String mainPage(Model model){
-        List<User> user = service.getUserByFirstName("Maksym");
-        model.addAttribute("students", user);
-        return "mainPage";
+        return "redirect:authorization";
     }
 
 
@@ -57,11 +50,12 @@ public class MainController {
     public String registrationPostMethod(@ModelAttribute("user") User user){
         user.setStatus(true);
         user.setRole(Role.STUDENT);
-        service.saveUser(user);
+        user.setDate(LocalDate.now());
+        userService.saveUser(user);
         return "redirect:authorization";
     }
 
-    @GetMapping("authorization")
+    @GetMapping("/authorization")
     public String authorizationGetMethod(Model model){
         model.addAttribute("student", new User());
         return "authorization";
@@ -71,7 +65,7 @@ public class MainController {
     public String authorizationPostMethod(
             @ModelAttribute("student") User user,
             HttpSession session){
-        User user1 = service.getUserByLoginAndPassword(user.getLogin(),
+        User user1 = userService.getUserByLoginAndPassword(user.getLogin(),
                 user.getPassword());
         if(Objects.isNull(user1)) {
             return "redirect:authorization";

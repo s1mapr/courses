@@ -6,15 +6,20 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
+<div th:replace="~{student/header :: content}"></div>
+
 <div th:each="task:${tasks}">
+    <div th:if="${task.variants.size() > 0}">
     <p th:text="${task.task.taskName}"></p>
     <div th:each="variant:${task.variants}">
         <input th:class="${task.task.id}" type="checkbox">
         <p th:text="${variant.value}"></p>
     </div>
     <input th:id="${task.task.id}" onclick="getCheckboxesValue(this)" type="submit" value="send">
+    </div>
 </div>
 
+<a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${courseId}, materialId=${materialId})}">finish</a>
 <script>
     function getCheckboxesValue(obj){
         let checkboxes = document.getElementsByClassName(obj.id);

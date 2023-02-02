@@ -2,20 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Authorization</title>
-</head>
-<body>
-  <form method="post" th:action="@{/authorization}" th:object="${user}">
-      <div>
-          <input type="text" name="login" placeholder="Login">
-      </div>
-      <div>
-          <input type="text" name="password" placeholder="Password">
-      </div>
-      <div>
-          <input type="submit" value="login">
-      </div>
+    <title>Title</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .div1{
+            width: 50%;
+            min-height: 100vh;
+            float: left;
+        }
+        .div2{
+            width: 50%;
+            min-height: 100vh;
+            margin-left: 50%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            overflow: auto;
+        }
+        .authDiv{
+            padding-top: 5%;
+            padding-bottom: 5%;
+            width: 50%;
+            height: 50%;
+            background: white;
+            border-radius: 20px;
+        }
+        .dataInput{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            height: 30px;
+            width: 80%;
+            border: none;
+            border-bottom: 3px solid #8B4513;
+            outline: none;
+        }
+        h1{
+            margin-left: 10%;
+            font-family: Times New Roman,serif;
 
-  </form>
+
+        }
+        p{
+            display: inline-block;
+            margin-left: 10%;
+        }
+        ::placeholder {
+            color: #696969;
+            font-size: 1.2em;
+        }
+
+        a{
+            color: #8B4513;
+            text-decoration: none;
+        }
+
+        .submit{
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            height: 30px;
+            width: 30%;
+            border-radius: 20px;
+            border-color: #8B4513;
+            color: #A0522D;
+            background-color: white;
+        }
+    </style>
+</head>
+<body th:style="'background-image:url(' + @{/styles/mainPagePic.jpg} + ');background-repeat: no-repeat;background-size: 100%;'">
+
+<div>
+    <div class="div1">
+
+    </div>
+    <div class="div2">
+        <div class="authDiv">
+            <h1>Вітаємо в ESchool</h1>
+            <form  method="post" th:action="@{/authorization}" th:object="${user}">
+                <div>
+                    <input class="dataInput" type="text" name="login" placeholder="Логін">
+
+                </div>
+                <div>
+                    <input class="dataInput" type="password" name="password" placeholder="Пароль">
+                </div>
+                <div>
+                    <input class="submit" type="submit" value="Авторизуватися">
+                </div>
+                <p>Немає облікового запису?</p>
+                <a href="/registration">Зареєструватися!</a>
+            </form>
+        </div>
+    </div>
+    <!--
+    <img th:src="@{/styles/mainPagePic.jpg}" alt="" src=""/>
+
+    <div>
+        <embed th:src="@{'asf.pdf#toolbar=0&navpanes=0'}" width="800" height="700" />
+    </div>
+    -->
+</div>
 </body>
 </html>

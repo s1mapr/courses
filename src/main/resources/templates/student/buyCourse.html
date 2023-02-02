@@ -5,6 +5,7 @@
     <title>Buy</title>
 </head>
 <body>
+<div th:replace="~{student/header :: content}"></div>
 
 <form method="post" th:action="@{/student/buyCourse}">
   <input type="hidden" name="id" th:value="${id}">

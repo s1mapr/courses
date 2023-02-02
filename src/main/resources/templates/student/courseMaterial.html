@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<div th:replace="~{student/header :: content}"></div>
+
 <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}/task(courseId=${courseId}, materialId=${materialId})}">tests</a>
 </body>
 </html>

@@ -6,8 +6,15 @@
 </head>
 <body>
 <div th:replace="teacher/header :: content"></div>
+<form method="post" th:action="@{/teacher/uploadCourseImg}" enctype="multipart/form-data">
+    <input type="hidden" name="cId" th:value="${courseInfo.getCourse().getId()}">
+    <input type="file" name="img" accept="image/*" class="form-control-file">
+    <button type="submit">Upload image</button>
+</form>
 
-    <p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
+<img th:src="${courseInfo.course.pictureUrl}">
+
+<p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
     <p th:text="${courseInfo.getCourse().getTeacherName()}"></p>
     <p th:text="${courseInfo.getCourse().getPrice()}"></p>
     <a th:href="@{/teacher/course/{id}/newMaterial(id=${id})}" >add new material</a>

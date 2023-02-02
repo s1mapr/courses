@@ -1,8 +1,11 @@
 package com.example.diploma.enteties;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
+
 
 @Entity(name="task")
 @Table(name="task")
@@ -20,7 +23,7 @@ public class Task {
             nullable = false)
     private String taskName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "course_material_id", referencedColumnName = "id")
     private CourseMaterial courseMaterial;
 
