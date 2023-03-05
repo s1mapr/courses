@@ -1,6 +1,7 @@
 package com.example.diploma.service;
 
 
+import com.example.diploma.enteties.Role;
 import com.example.diploma.enteties.User;
 import com.example.diploma.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,9 @@ public class UserService {
     public User getUserByLoginAndPassword(String login, String password){
         return userRepository.findUserByLoginAndPassword(login, password);
     }
+
+    public List<User> getUsersByRole(Role role){
+        return userRepository.findUserByRole(role);
+    }
+
 }

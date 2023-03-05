@@ -3,23 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/headerStyles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/coursesStyles.css}">
     <style>
-        .block {
-            display: block;
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
         }
+
+
+        .search_element {
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            padding-bottom: 10px;
+        }
+
+        .search_input {
+            border: 5px solid #E7E7E7;
+            height: 4vh;
+            width: 80%;
+            outline: none;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+
+        .div1 {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+            height: auto;
+            float: left;
+        }
+
+
+        .navBar {
+            -webkit-box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            -moz-box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            background-color: white;
+            min-height: 80%;
+            width: 70%;
+        }
+
+        .nav_bar_checking {
+            padding-left: 25px;
+            width: 80%;
+        }
+
+        .checkbox_element{
+            width: 100%;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E7E7E7;
+            margin-bottom: 10px;
+        }
+
+        .checkbox_title {
+            margin-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .price_input{
+            border: 3px solid #E7E7E7;
+            height: 3vh;
+            width: 15%;
+            outline: none;
+            border-radius: 10px 10px 10px 10px;
+            margin-bottom: 10px;
+        }
+
+        .submit_input{
+            height: 30px;
+            width: 20%;
+            border-radius: 15px;
+            border-color: #E7E7E7;
+            outline: none;
+            background-color: white;
+        }
+
+        .submit_element{
+            margin-top: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .checkbox p {
+            margin: 2px;
+        }
+
     </style>
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
-<div th:each="element : ${courses}">
-    <div>
-        <div th:class='${element.id}' th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''">
-            <a th:text="${element.courseTitle}"></a><br>
-            <p th:text="${element.teacherName}"></p>
-            <p th:text="${element.price}"></p><br>
+<div class="mainDiv">
+    <div class="div1">
+        <form method="get" th:action="@{/student/courses}" th:object="${filter}" class="navBar">
+            <div class="search_element">
+                <input class="search_input" name="title" type="text"
+                       placeholder="Введіть назву курсу, або ключеві слова">
+            </div>
+            <div class="nav_bar_checking">
+                <div class="checkbox_element">
+                    <div class="checkbox_title" onclick="changeVision('lvl')">
+                        <h3>
+                            Рівень
+                        </h3>
+                    </div>
+                    <div id="lvl" class="checkbox">
+                        <div>
+                            <label><input id="check1" name="complexity" style="display: inline-block" type="checkbox"
+                                          value="beginner">
+                                <p style="display: inline-block;">Легкий</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check2" name="complexity" style="display: inline-block" type="checkbox"
+                                          value="intermediate">
+                                <p style="display: inline-block;">Середній</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check3" name="complexity" style="display: inline-block" type="checkbox"
+                                          value="expert">
+                                <p style="display: inline-block;">Високий</p></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkbox_element">
+                    <div class="checkbox_title" onclick="changeVision('author')">
+                        <h3>
+                            Автор
+                        </h3>
+                    </div>
+                    <div id="author" class="none_active checkbox">
+                        <div th:each="teacher:${teachers}">
+                            <label><input th:id="${teacher.id}" name="author" style="display: inline-block" type="checkbox"
+                                          th:value="${teacher.firstName} + ' ' + ${teacher.lastName}">
+                                <p th:text="${teacher.firstName} + ' ' + ${teacher.lastName}"
+                                   style="display: inline-block;"></p></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkbox_element">
+
+                    <div class="checkbox_title" onclick="changeVision('price')">
+                        <h3>
+                            Ціна
+                        </h3>
+                    </div>
+                    <div id="price" class="checkbox">
+                        <div>
+                            <div>
+                                <input class="price_input" placeholder="Від" name="minPrice" type="text">
+                            </div>
+                            <div>
+                                <input class="price_input" placeholder="До" name="maxPrice" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit_element">
+                <input class="submit_input" type="submit" value="Пошук">
+            </div>
+
+        </form>
+
+    </div>
+    <div class="div2">
+        <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''" class="course_element"
+             th:each="element : ${courses}">
+            <div th:style="'background-image:url(' + @{${element.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+                 class="course_img">
+            </div>
+            <div class="course_description">
+                <div class="course_info">
+                    <h3 th:text="${element.courseTitle}"></h3>
+                    <p>vhbjknkmadsdgvjbknkmsdagjbnasf\sjknfksanflkasnfjnasjkfnasjkbfjkasbkfbska bjksbajkfbasjkbfjksabfj
+                        ajkbfjkbsjkbfkjs</p>
+                    <p th:text="${element.teacherName}"></p>
+                </div>
+                <div class="course_price">
+                    <p th:text="${element.price} + '₴'"></p>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="div3">
+
     </div>
 </div>
 
+
+<script>
+    function changeVision(divId) {
+        document.querySelector(`#${divId}`).classList.toggle('none_active')
+    }
+    // Получаем все чекбоксы на странице
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Обходим все чекбоксы и добавляем обработчик события onchange
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // Получаем значение состояния чекбокса
+            const isChecked = checkbox.checked;
+
+            // Получаем ID чекбокса
+            const checkboxId = checkbox.id;
+
+            // Сохраняем значение состояния чекбокса в локальном хранилище
+            localStorage.setItem(checkboxId, isChecked);
+        });
+    });
+
+    // Проверяем локальное хранилище при загрузке страницы
+    checkboxes.forEach(function(checkbox) {
+        const checkboxId = checkbox.id;
+        const savedValue = localStorage.getItem(checkboxId);
+
+        if (savedValue !== null) {
+            checkbox.checked = savedValue === 'true';
+        }
+    });
+
+    const dropdowns = document.querySelectorAll('.dropdown');
+
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', () => {
+            dropdown.classList.toggle('active');
+        });
+    });
+
+</script>
 </body>
 </html>

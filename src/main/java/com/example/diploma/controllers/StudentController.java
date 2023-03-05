@@ -3,28 +3,24 @@ package com.example.diploma.controllers;
 import com.example.diploma.dto.CourseDTO;
 import com.example.diploma.dto.TaskDTO;
 import com.example.diploma.enteties.*;
-import com.example.diploma.repositories.UserCourseMapRepository;
 import com.example.diploma.service.*;
+import com.example.diploma.utils.CourseFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import javax.management.ValueExp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController {
+
+    private UserService userService;
 
     private CourseService courseService;
 
@@ -36,18 +32,18 @@ public class StudentController {
 
     private VariantService variantService;
 
-    private UserMaterialMapService userMaterialMapService;
 
     private TaskMaterialService taskMaterialService;
+
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
         this.taskMaterialService = taskMaterialService;
-    }
-
-    @Autowired
-    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
-        this.userMaterialMapService = userMaterialMapService;
     }
 
     @Autowired
@@ -81,9 +77,15 @@ public class StudentController {
     }
 
     @GetMapping("/courses")
-    public String getAllCourses(Model model) {
+    public String getAllCourses(Model model,
+                                @ModelAttribute("filter") Filter filter) {
+
         List<Course> courses = courseService.findAllCourses();
+        courses = CourseFilter.doFilter(courses, filter, "");
+        List<User> teachers = userService.getUsersByRole(Role.TEACHER);
+        model.addAttribute("teachers", teachers);
         model.addAttribute("courses", courses);
+        model.addAttribute("filter", filter);
         return "student/courses";
     }
 
@@ -97,6 +99,11 @@ public class StudentController {
         model.addAttribute("wasBought", wasBought);
         model.addAttribute("courseDTO", course);
         return "student/course";
+    }
+
+
+    public String filterCourses(){
+        return null;
     }
 
     @GetMapping("/course/{id}/buy")
@@ -157,4 +164,11 @@ public class StudentController {
         model.addAttribute("tasks", taskDTOS);
         return "student/task";
     }
+
+    @GetMapping("/{userId}/profile")
+    public static String studentProfile(@PathVariable("userId") Long userId){
+
+        return "";
+    }
+
 }

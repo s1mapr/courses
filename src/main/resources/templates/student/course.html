@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Курс</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/headerStyles.css}">
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
+
 <p th:text="${courseDTO.course.getCourseTitle()}"></p>
 <div>
     <iframe width="560" height="315" th:src="${courseDTO.course.introUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

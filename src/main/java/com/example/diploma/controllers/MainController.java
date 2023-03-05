@@ -77,5 +77,10 @@ public class MainController {
         return "redirect:student/mainPage";
     }
 
+    @GetMapping("/logout")
+    public String logOut(HttpSession session){
+        session.invalidate();
+        return "authorization";
+    }
 
 }

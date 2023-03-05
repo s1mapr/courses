@@ -2,6 +2,7 @@ package com.example.diploma.controllers;
 
 import com.example.diploma.dto.CourseDTO;
 import com.example.diploma.enteties.*;
+import com.example.diploma.repositories.UserRepository;
 import com.example.diploma.service.*;
 import com.example.diploma.utils.YouTubeLinkParser;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,11 +31,16 @@ public class TeacherController {
 
     private UserMaterialMapService userMaterialMapService;
 
-    private UserTaskMapService userTaskMapService;
+    private UserService userService;
 
     private TaskMaterialService taskMaterialService;
 
     private AWSService awsService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setAwsService(AWSService awsService) {
@@ -44,11 +50,6 @@ public class TeacherController {
     @Autowired
     public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
         this.taskMaterialService = taskMaterialService;
-    }
-
-    @Autowired
-    public void setUserTaskMapService(UserTaskMapService userTaskMapService) {
-        this.userTaskMapService = userTaskMapService;
     }
 
     @Autowired
@@ -96,7 +97,7 @@ public class TeacherController {
         return "redirect:course/" + course.getId();
     }
 
-    @GetMapping("courses")
+    @GetMapping("/courses")
     public String getTeacherCourses(Model model,
                                     HttpSession session) {
         User user = (User) session.getAttribute("user");

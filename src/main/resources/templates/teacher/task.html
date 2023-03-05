@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <style>
-        #modalForm{
+        #modalForm {
             position: fixed;
             top: 0;
             right: 0;
@@ -40,93 +41,100 @@
 
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         showTableFunction();
-        $('input.submit').on('click', function (){
+        $('input.submit').on('click', function () {
             let valueVar = $('input.value').val();
             let statusVar;
             let taskIdVar = $('input.taskId').val();
             statusVar = document.querySelector('.status').checked;
             $.ajax({
-                method:"POST",
-                url:"/teacher/course/createNewVariant",
-                data:{value: valueVar, status: statusVar, taskId:taskIdVar},
-                success: function (){
-                    showTableFunction();
+                method: "POST",
+                url: "/teacher/course/createNewVariant",
+                data: {value: valueVar, status: statusVar, taskId: taskIdVar},
+                success: function () {
+                    showTableFunction("add");
                 }
 
             })
             $('input.value').val('');
         });
 
-        $('input.modalSave').on('click', function (){
+        $('input.modalSave').on('click', function () {
             let modalValueVar = $('input.modalValue').val();
             let modelStatusVar;
             let modelVariantIdVar = $('input.modalId').val();
             let taskIdVar = $('input.taskId').val();
-            if(document.querySelector('.modalStatus').checked){
+            if (document.querySelector('.modalStatus').checked) {
                 modelStatusVar = true;
-            }else{
+            } else {
                 modelStatusVar = false;
             }
             $.ajax({
                 method: "POST",
-                url:"/teacher/course/updateVariant",
-                data:{value: modalValueVar, status: modelStatusVar, id:modelVariantIdVar, taskId:taskIdVar},
-                success: function (){
-                    showTableFunction();
+                url: "/teacher/course/updateVariant",
+                data: {value: modalValueVar, status: modelStatusVar, id: modelVariantIdVar, taskId: taskIdVar},
+                success: function () {
+                    showTableFunction("removeOrEdit");
                     hideWindow();
                 }
-            })
-
-        })
+            });
+        });
 
 
     });
 
-    function showTableFunction(){
+    function showTableFunction(scrollPoss) {
         $("#temp").remove();
         taskId = $('input.taskId').val();
-        url = '/teacher/course/task/'+taskId+'/variants';
+        url = '/teacher/course/task/' + taskId + '/variants';
         htmlOutput = '<div id="temp">';
-        $.get(url, function (responseJSON){
-            $.each(responseJSON, function (index, variants){
+        $.get(url, function (responseJSON) {
+            $.each(responseJSON, function (index, variants) {
                 htmlOutput +=
                     '<div>' +
                     '<p>' + variants.value + '</p>' +
-                    '<button id="'+ variants.id +'" onclick="showWindow(this)"> edit</button>' +
-                    '<button class="remove" id="'+ variants.id +'" onclick="removeVariant(this)"> remove</button>' +
+                    '<button id="' + variants.id + '" onclick="showWindow(this)"> edit</button>' +
+                    '<button class="remove" id="' + variants.id + '" onclick="removeVariant(this)"> remove</button>' +
                     '</div>';
             });
             htmlOutput += '</div>';
-        }).done(function (){
+        }).done(function () {
             $("#block").append(htmlOutput);
+            if (scrollPoss === "add") {
+                window.scrollTo(0, document.body.scrollHeight + document.documentElement.clientHeight);
+                return false;
+            } else if (scrollPoss === "removeOrEdit") {
+                window.scrollTo(0, document.documentElement.clientHeight);
+                return false;
+            }
         })
     }
 
 
-    function showWindow(id){
+    function showWindow(id) {
         $("#modalDiv").remove();
         $("#modalForm").append(
             '<div id="modalDiv">' +
-            '<input type="hidden" class="modalId" name="modalId" value="'+id.id +'">' +
+            '<input type="hidden" class="modalId" name="modalId" value="' + id.id + '">' +
             '</div>')
         document.getElementById('modalForm').style.display = 'block';
     }
 
-    function hideWindow(){
+    function hideWindow() {
         document.getElementById('modalForm').style.display = 'none';
     }
 
-    function removeVariant(target){
+    function removeVariant(target) {
         $.ajax({
             method: "POST",
-            url:"/teacher/course/deleteVariant",
-            data:{id:target.id},
-            success: function (){
-                showTableFunction();
+            url: "/teacher/course/deleteVariant",
+            data: {id: target.id},
+            success: function () {
+                showTableFunction("removeOrEdit");
             }
         })
+
     }
 
 </script>

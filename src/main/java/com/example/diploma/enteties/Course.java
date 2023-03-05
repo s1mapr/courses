@@ -2,6 +2,9 @@ package com.example.diploma.enteties;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 
 @Entity(name = "course")
 @Table(name = "course")
@@ -43,6 +46,11 @@ public class Course {
     @Column(name="picture_url")
     private String pictureUrl;
 
+    @Column(name="complexity")
+    private String complexity;
+
+    @Column(name="date")
+    private LocalDate date = LocalDate.now();
 
 
     public Course() {
@@ -56,6 +64,14 @@ public class Course {
         this.description = description;
         this.introUrl = introUrl;
         this.pictureUrl = pictureUrl;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getId() {
@@ -112,6 +128,14 @@ public class Course {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public String getComplexity() {
+        return complexity;
+    }
+
+    public void setComplexity(String complexity) {
+        this.complexity = complexity;
     }
 
     @Override

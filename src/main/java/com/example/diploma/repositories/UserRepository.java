@@ -1,5 +1,6 @@
 package com.example.diploma.repositories;
 
+import com.example.diploma.enteties.Role;
 import com.example.diploma.enteties.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByLoginAndPassword(String login, String password);
 
     User findUserById(Long id);
+
+    List<User> findUserByRole(Role role);
 
 }
 
