@@ -35,6 +35,12 @@ public class StudentController {
 
     private TaskMaterialService taskMaterialService;
 
+    private UserMaterialMapService userMaterialMapService;
+
+    @Autowired
+    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
+        this.userMaterialMapService = userMaterialMapService;
+    }
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -96,13 +102,14 @@ public class StudentController {
         CourseDTO course = courseService.getCourseData(id);
         User user = (User) session.getAttribute("user");
         boolean wasBought = userCourseMapService.checkUserCourseMapIfExist(user, course.getCourse());
+        userCourseMapService.updateCourseStatusIfNeeded(course.getCourse(), user);
         model.addAttribute("wasBought", wasBought);
         model.addAttribute("courseDTO", course);
         return "student/course";
     }
 
 
-    public String filterCourses(){
+    public String filterCourses() {
         return null;
     }
 
@@ -120,7 +127,7 @@ public class StudentController {
         Long id = Long.parseLong(request.getParameter("id"));
         Course course = courseService.getCourseById(id);
         User user = (User) session.getAttribute("user");
-        UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), 0.0);
+        UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), false);
         userCourseMapService.saveUserCourseMap(userCourseMap);
         taskMaterialService.addAllMaterialsUser(user, course);
         return "redirect:course/" + id;
@@ -142,9 +149,11 @@ public class StudentController {
 
     @GetMapping("/course/{courseId}/courseMaterial/{materialId}")
     public String getCourseMaterial(@PathVariable("courseId") Long courseId,
-                                    @PathVariable("materialId") Long materialId) {
-
-
+                                    @PathVariable("materialId") Long materialId,
+                                    HttpSession session) {
+        User student = (User) session.getAttribute("user");
+        CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
+        userMaterialMapService.updateMaterialStatusIfNeeded(courseMaterial, student);
         return "student/courseMaterial";
     }
 
@@ -157,7 +166,7 @@ public class StudentController {
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
         List<Task> tasks = taskService.getMaterialTasks(courseMaterial);
         List<TaskDTO> taskDTOS = new ArrayList<>();
-        for(Task task: tasks){
+        for (Task task : tasks) {
             List<Variant> variants = variantService.getListOfVariants(task);
             taskDTOS.add(new TaskDTO(task, variants));
         }
@@ -166,7 +175,7 @@ public class StudentController {
     }
 
     @GetMapping("/{userId}/profile")
-    public static String studentProfile(@PathVariable("userId") Long userId){
+    public static String studentProfile(@PathVariable("userId") Long userId) {
 
         return "";
     }

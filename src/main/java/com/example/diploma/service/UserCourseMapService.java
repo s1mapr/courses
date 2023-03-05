@@ -2,6 +2,7 @@ package com.example.diploma.service;
 
 import com.example.diploma.enteties.*;
 import com.example.diploma.repositories.UserCourseMapRepository;
+import com.example.diploma.repositories.UserMaterialMapRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,13 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UserCourseMapService {
 
     private UserCourseMapRepository userCourseMapRepository;
+
+    private UserMaterialMapRepository userMaterialMapRepository;
+
+    @Autowired
+    public void setUserMaterialMapRepository(UserMaterialMapRepository userMaterialMapRepository) {
+        this.userMaterialMapRepository = userMaterialMapRepository;
+    }
 
     @Autowired
     public void setUserCourseMapRepository(UserCourseMapRepository userCourseMapRepository) {
@@ -42,6 +50,20 @@ public class UserCourseMapService {
 
     public List<UserCourseMap> getListOfUserCourseMapsByCourseAndRole(Course course, Role role){
         return userCourseMapRepository.findUserCourseMapByPkCourseAndPkUserRole(course, role);
+    }
+
+    public void updateCourseStatusIfNeeded(Course course, User user){
+        List<UserCourseMaterialMap> userMaterialList = userMaterialMapRepository
+                .findUserCourseMaterialMapByPkUserAndPkCourseMaterialCourse(user, course);
+        int countOfCompletedMaterials = userMaterialList.stream()
+                .map(UserCourseMaterialMap::getStatus)
+                .mapToInt(b->b?1:0)
+                .sum();
+        UserCourseMap userCourse = userCourseMapRepository.findUserCourseMapByPk_CourseAndPk_User(course, user);
+        if(!userCourse.getStatus() && countOfCompletedMaterials == userMaterialList.size()){
+            userCourse.setStatus(true);
+            saveUserCourseMap(userCourse);
+        }
     }
 
 }

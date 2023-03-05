@@ -2,6 +2,7 @@ package com.example.diploma.service;
 
 import com.example.diploma.enteties.*;
 import com.example.diploma.repositories.UserMaterialMapRepository;
+import com.example.diploma.repositories.UserTaskMapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,13 @@ public class UserMaterialMapService {
 
     private UserCourseMapService userCourseMapService;
 
+    private UserTaskMapRepository userTaskMapRepository;
 
+
+    @Autowired
+    public void setUserTaskMapRepository(UserTaskMapRepository userTaskMapRepository) {
+        this.userTaskMapRepository = userTaskMapRepository;
+    }
 
     @Autowired
     public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
@@ -47,5 +54,18 @@ public class UserMaterialMapService {
 
     public List<UserCourseMaterialMap> getUserCourseMaterialMapByCourseMaterialAndUserRole(CourseMaterial courseMaterial, Role role){
         return userMaterialMapRepository.findUserCourseMaterialMapByPkCourseMaterialAndPkUserRole(courseMaterial, role);
+    }
+
+    public void updateMaterialStatusIfNeeded(CourseMaterial courseMaterial, User user){
+        List<UserTaskMap> userTasksList = userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(user, courseMaterial);
+        int countOfRightAnswers = userTasksList.stream()
+                .map(UserTaskMap::getStatus)
+                .mapToInt(b->b?1:0)
+                .sum();
+        UserCourseMaterialMap userMaterial = userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
+        if(!userMaterial.getStatus() && countOfRightAnswers == userTasksList.size()){
+            userMaterial.setStatus(true);
+            saveMaterial(userMaterial);
+        }
     }
 }

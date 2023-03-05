@@ -5,8 +5,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity(name="userСourse")
 @Table(name="user_course")
@@ -14,16 +12,16 @@ public class UserCourseMap {
 
     @EmbeddedId
     private UserCoursePK pk;
-    @Column(name="progress")
-    private Double progress;
+    @Column(name="status")
+    private Boolean status;
 
     public UserCourseMap() {
     }
 
 
-    public UserCourseMap(UserCoursePK pk, Double progress) {
+    public UserCourseMap(UserCoursePK pk, Boolean status) {
         this.pk = pk;
-        this.progress = progress;
+        this.status = status;
     }
 
     public UserCourseMap(UserCoursePK pk) {
@@ -38,13 +36,11 @@ public class UserCourseMap {
         this.pk = pk;
     }
 
-    public Double getProgress() {
-        return progress;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setProgress(Double progress) {
-        this.progress = progress;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
-
-
 }
