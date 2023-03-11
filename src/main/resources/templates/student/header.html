@@ -15,10 +15,10 @@
             <li><a class="headerA" href="/student/courses">courses</a></li>
             <li><a class="headerA">statistics</a></li>
             <li class="dropdown">
-                <a href="#">icon</a>
+                <a th:text="${user.firstName} + ' ' + ${user.lastName}" href="#">menu</a>
                 <ul class="dropdown-menu">
                     <div>
-                        <li><a href="/authorization">Профіль</a></li>
+                        <li><a th:href="@{/student/{id}/profile(id=${user.id})}">Профіль</a></li>
                     </div>
                     <div>
                         <li><a href="/authorization">Редагувати профіль</a></li>

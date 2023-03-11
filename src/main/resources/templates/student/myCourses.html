@@ -4,22 +4,33 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/student/headerStyles.css}">
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #fbfbfb;
-    }
-</style>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/coursesStyles.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
-<div th:each="element : ${courses}">
-    <div>
-        <div th:class='${element.id}' th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''">
-            <a th:text="${element.courseTitle}"></a><br>
-            <p th:text="${element.teacherName}"></p>
-            <p th:text="${element.price}"></p><br>
+<div class="divfmc2">
+    <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''" class="course_element"
+         th:each="element : ${courses}">
+        <div th:style="'background-image:url(' + @{${element.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+             class="course_img">
+        </div>
+        <div class="course_description">
+            <div class="course_info">
+                <h3 th:text="${element.courseTitle}"></h3>
+                <p>vhbjknkmadsdgvjbknkmsdagjbnasf\sjknfksanflkasnfjnasjkfnasjkbfjkasbkfbska bjksbajkfbasjkbfjksabfj
+                    ajkbfjkbsjkbfkjs</p>
+                <p th:text="${element.teacherName}"></p>
+            </div>
+            <div class="course_price">
+                <p th:text="${element.price} + '₴'"></p>
+            </div>
         </div>
     </div>
 </div>

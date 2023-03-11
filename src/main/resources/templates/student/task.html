@@ -8,7 +8,6 @@
 
 </head>
 <body>
-<div th:replace="~{student/header :: content}"></div>
 
 <div th:each="task:${tasks}">
     <div th:if="${task.variants.size() > 0}">

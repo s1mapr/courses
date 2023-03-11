@@ -58,14 +58,16 @@ public class UserMaterialMapService {
 
     public void updateMaterialStatusIfNeeded(CourseMaterial courseMaterial, User user){
         List<UserTaskMap> userTasksList = userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(user, courseMaterial);
-        int countOfRightAnswers = userTasksList.stream()
-                .map(UserTaskMap::getStatus)
-                .mapToInt(b->b?1:0)
-                .sum();
-        UserCourseMaterialMap userMaterial = userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
-        if(!userMaterial.getStatus() && countOfRightAnswers == userTasksList.size()){
-            userMaterial.setStatus(true);
-            saveMaterial(userMaterial);
+        if(!userTasksList.isEmpty()) {
+            int countOfRightAnswers = userTasksList.stream()
+                    .map(UserTaskMap::getStatus)
+                    .mapToInt(b -> b ? 1 : 0)
+                    .sum();
+            UserCourseMaterialMap userMaterial = userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
+            if (!userMaterial.getStatus() && countOfRightAnswers == userTasksList.size()) {
+                userMaterial.setStatus(true);
+                saveMaterial(userMaterial);
+            }
         }
     }
 }

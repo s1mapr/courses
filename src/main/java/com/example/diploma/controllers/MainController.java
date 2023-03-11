@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -74,13 +73,13 @@ public class MainController {
         if(user1.getRole().equals(Role.TEACHER)){
             return "redirect:teacher/courses";
         }
-        return "redirect:student/mainPage";
+        return "redirect:student/courses";
     }
 
     @GetMapping("/logout")
     public String logOut(HttpSession session){
         session.invalidate();
-        return "authorization";
+        return "redirect:authorization";
     }
 
 }

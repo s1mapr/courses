@@ -55,14 +55,16 @@ public class UserCourseMapService {
     public void updateCourseStatusIfNeeded(Course course, User user){
         List<UserCourseMaterialMap> userMaterialList = userMaterialMapRepository
                 .findUserCourseMaterialMapByPkUserAndPkCourseMaterialCourse(user, course);
-        int countOfCompletedMaterials = userMaterialList.stream()
-                .map(UserCourseMaterialMap::getStatus)
-                .mapToInt(b->b?1:0)
-                .sum();
-        UserCourseMap userCourse = userCourseMapRepository.findUserCourseMapByPk_CourseAndPk_User(course, user);
-        if(!userCourse.getStatus() && countOfCompletedMaterials == userMaterialList.size()){
-            userCourse.setStatus(true);
-            saveUserCourseMap(userCourse);
+        if(!userMaterialList.isEmpty()) {
+            int countOfCompletedMaterials = userMaterialList.stream()
+                    .map(UserCourseMaterialMap::getStatus)
+                    .mapToInt(b -> b ? 1 : 0)
+                    .sum();
+            UserCourseMap userCourse = userCourseMapRepository.findUserCourseMapByPk_CourseAndPk_User(course, user);
+            if (!userCourse.getStatus() && countOfCompletedMaterials == userMaterialList.size()) {
+                userCourse.setStatus(true);
+                saveUserCourseMap(userCourse);
+            }
         }
     }
 

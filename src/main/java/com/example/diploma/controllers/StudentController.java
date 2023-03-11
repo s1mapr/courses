@@ -84,8 +84,10 @@ public class StudentController {
 
     @GetMapping("/courses")
     public String getAllCourses(Model model,
-                                @ModelAttribute("filter") Filter filter) {
-
+                                @ModelAttribute("filter") Filter filter,
+                                HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user", user);
         List<Course> courses = courseService.findAllCourses();
         courses = CourseFilter.doFilter(courses, filter, "");
         List<User> teachers = userService.getUsersByRole(Role.TEACHER);
@@ -101,6 +103,7 @@ public class StudentController {
                                 HttpSession session) {
         CourseDTO course = courseService.getCourseData(id);
         User user = (User) session.getAttribute("user");
+        model.addAttribute("user", user);
         boolean wasBought = userCourseMapService.checkUserCourseMapIfExist(user, course.getCourse());
         userCourseMapService.updateCourseStatusIfNeeded(course.getCourse(), user);
         model.addAttribute("wasBought", wasBought);
@@ -136,7 +139,8 @@ public class StudentController {
     @GetMapping("/myCourses")
     public String getBoughtCourses(HttpSession session,
                                    Model model) {
-        User student = (User) session.getAttribute("user");
+        User student = (User)session.getAttribute("user");
+        model.addAttribute("user", student);
         List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUser(student);
         List<Course> courses = userCourseMaps
                 .stream()
@@ -150,8 +154,10 @@ public class StudentController {
     @GetMapping("/course/{courseId}/courseMaterial/{materialId}")
     public String getCourseMaterial(@PathVariable("courseId") Long courseId,
                                     @PathVariable("materialId") Long materialId,
-                                    HttpSession session) {
-        User student = (User) session.getAttribute("user");
+                                    HttpSession session,
+                                    Model model) {
+        User student = (User)session.getAttribute("user");
+        model.addAttribute("user", student);
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
         userMaterialMapService.updateMaterialStatusIfNeeded(courseMaterial, student);
         return "student/courseMaterial";
@@ -175,9 +181,12 @@ public class StudentController {
     }
 
     @GetMapping("/{userId}/profile")
-    public static String studentProfile(@PathVariable("userId") Long userId) {
-
-        return "";
+    public static String studentProfile(@PathVariable("userId") Long userId,
+                                        HttpSession session,
+                                        Model model) {
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user", user);
+        return "student/profile";
     }
 
 }
