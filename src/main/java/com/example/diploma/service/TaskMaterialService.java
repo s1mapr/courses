@@ -48,7 +48,7 @@ public class TaskMaterialService {
         List<CourseMaterial> listOfMaterials = courseMaterialService.getCourseMaterialsByCourse(course);
         new Thread(() -> {
             for(CourseMaterial courseMaterial:listOfMaterials){
-                userMaterialMapService.saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false));
+                userMaterialMapService.saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false, 0.0));
                 userTaskMapService.addTasksForUser(courseMaterial, user);
             }
         }).start();

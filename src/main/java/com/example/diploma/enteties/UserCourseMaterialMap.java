@@ -16,13 +16,19 @@ public class UserCourseMaterialMap {
     @Column(name = "status")
     private Boolean status;
 
+    @Column(name = "progress")
+    private Double progress;
+
     public UserCourseMaterialMap() {
     }
 
-    public UserCourseMaterialMap(UserCourseMaterialPK pk, Boolean status) {
+    public UserCourseMaterialMap(UserCourseMaterialPK pk, Boolean status, Double progress) {
         this.pk = pk;
         this.status = status;
+        this.progress = progress;
     }
+
+
 
     public UserCourseMaterialPK getPk() {
         return pk;
@@ -38,5 +44,13 @@ public class UserCourseMaterialMap {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Double progress) {
+        this.progress = progress;
     }
 }

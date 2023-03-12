@@ -47,7 +47,7 @@ public class UserMaterialMapService {
                 .toList();
         new Thread(()->{
            for (User user : users){
-               saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false));
+               saveMaterial(new UserCourseMaterialMap(new UserCourseMaterialPK(courseMaterial, user), false, 0.0));
            }
         }).start();
     }

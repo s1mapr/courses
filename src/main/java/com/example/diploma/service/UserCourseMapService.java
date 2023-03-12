@@ -68,4 +68,8 @@ public class UserCourseMapService {
         }
     }
 
+    public UserCourseMap getUserCourseByCourseAndUser(Course course, User user){
+        return userCourseMapRepository.findUserCourseMapByPk_CourseAndPk_User(course, user);
+    }
+
 }

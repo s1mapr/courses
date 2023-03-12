@@ -5,16 +5,20 @@ import com.example.diploma.dto.TaskDTO;
 import com.example.diploma.enteties.*;
 import com.example.diploma.service.*;
 import com.example.diploma.utils.CourseFilter;
+import com.example.diploma.utils.PdfGenerator;
+import com.itextpdf.text.DocumentException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/student")
@@ -103,9 +107,14 @@ public class StudentController {
                                 HttpSession session) {
         CourseDTO course = courseService.getCourseData(id);
         User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
         boolean wasBought = userCourseMapService.checkUserCourseMapIfExist(user, course.getCourse());
-        userCourseMapService.updateCourseStatusIfNeeded(course.getCourse(), user);
+        //userCourseMapService.updateCourseStatusIfNeeded(course.getCourse(), user);
+        if(wasBought){
+            UserCourseMap userCourseMap = userCourseMapService.getUserCourseByCourseAndUser(course.getCourse(), user);
+            course.setStatus(userCourseMap.getStatus());
+            course.setProgress(userCourseMap.getProgress());
+        }
+        model.addAttribute("user", user);
         model.addAttribute("wasBought", wasBought);
         model.addAttribute("courseDTO", course);
         return "student/course";
@@ -130,7 +139,7 @@ public class StudentController {
         Long id = Long.parseLong(request.getParameter("id"));
         Course course = courseService.getCourseById(id);
         User user = (User) session.getAttribute("user");
-        UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), false);
+        UserCourseMap userCourseMap = new UserCourseMap(new UserCoursePK(course, user), false, 0.0);
         userCourseMapService.saveUserCourseMap(userCourseMap);
         taskMaterialService.addAllMaterialsUser(user, course);
         return "redirect:course/" + id;
@@ -142,11 +151,11 @@ public class StudentController {
         User student = (User)session.getAttribute("user");
         model.addAttribute("user", student);
         List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUser(student);
-        List<Course> courses = userCourseMaps
-                .stream()
-                .map(x -> x.getPk().getCourse())
-                .toList();
-        model.addAttribute("courses", courses);
+//        List<Course> courses = userCourseMaps
+//                .stream()
+//                .map(x -> x.getPk().getCourse())
+//                .toList();
+        model.addAttribute("courses", userCourseMaps);
         return "student/myCourses";
     }
 
@@ -187,6 +196,15 @@ public class StudentController {
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
         return "student/profile";
+    }
+
+    @GetMapping("/download-pdf")
+    public void downloadPdf(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=example.pdf");
+        ByteArrayOutputStream baos = PdfGenerator.generatePdf();
+        response.getOutputStream().write(baos.toByteArray());
+        response.getOutputStream().flush();
     }
 
 }

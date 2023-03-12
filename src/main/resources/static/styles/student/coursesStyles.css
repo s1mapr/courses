@@ -18,7 +18,7 @@ img {
 .course_description {
     display: flex;
     width: 65%;
-    gap: 30px;
+    gap: 25px;
 }
 
 .course_description p {
@@ -35,10 +35,10 @@ img {
 
 
 .divfmc2 {
-    width: 50%;
+    width: 54%;
     padding-top: 40px;
     min-height: 100%;
-    margin: 0 25% 0 25%;
+    margin: 0 23% 0 23%;
     color: black;
     border-radius: 10px;
 }

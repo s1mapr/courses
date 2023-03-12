@@ -12,16 +12,19 @@ public class UserCourseMap {
 
     @EmbeddedId
     private UserCoursePK pk;
-    @Column(name="status")
+    @Column(name = "status")
     private Boolean status;
+
+    @Column(name = "progress")
+    private Double progress;
 
     public UserCourseMap() {
     }
 
-
-    public UserCourseMap(UserCoursePK pk, Boolean status) {
+    public UserCourseMap(UserCoursePK pk, Boolean status, Double progress) {
         this.pk = pk;
         this.status = status;
+        this.progress = progress;
     }
 
     public UserCourseMap(UserCoursePK pk) {
@@ -42,5 +45,13 @@ public class UserCourseMap {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Double progress) {
+        this.progress = progress;
     }
 }

@@ -10,6 +10,10 @@ public class CourseDTO {
     private Course course;
     private List<CourseMaterial> courseMaterials;
 
+    private Boolean status;
+
+    private Double progress;
+
 
     public Course getCourse() {
         return course;
@@ -25,6 +29,22 @@ public class CourseDTO {
 
     public void setCourseMaterials(List<CourseMaterial> courseMaterials) {
         this.courseMaterials = courseMaterials;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Double progress) {
+        this.progress = progress;
     }
 }
 

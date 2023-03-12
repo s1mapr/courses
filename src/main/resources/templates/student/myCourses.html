@@ -16,20 +16,20 @@
 <body>
 <div th:replace="~{student/header :: content}"></div>
 <div class="divfmc2">
-    <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''" class="course_element"
+    <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.pk.course.id})} +'\''" class="course_element"
          th:each="element : ${courses}">
-        <div th:style="'background-image:url(' + @{${element.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+        <div th:style="'background-image:url(' + @{${element.pk.course.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
              class="course_img">
         </div>
         <div class="course_description">
             <div class="course_info">
-                <h3 th:text="${element.courseTitle}"></h3>
+                <h3 th:text="${element.pk.course.courseTitle}"></h3>
                 <p>vhbjknkmadsdgvjbknkmsdagjbnasf\sjknfksanflkasnfjnasjkfnasjkbfjkasbkfbska bjksbajkfbasjkbfjksabfj
                     ajkbfjkbsjkbfkjs</p>
-                <p th:text="${element.teacherName}"></p>
+                <p th:text="${element.pk.course.teacherName}"></p>
             </div>
-            <div class="course_price">
-                <p th:text="${element.price} + '₴'"></p>
+            <div class="course_status">
+                <p th:text="${element.status? 'Пройдено': element.progress + '%'}"></p>
             </div>
         </div>
     </div>

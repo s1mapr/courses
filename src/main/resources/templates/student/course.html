@@ -17,6 +17,12 @@
         <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
             <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId=${courseMaterial.courseMaterialId})}" th:text="${courseMaterial.materialName}"></a>
         </div>
+        <div th:if="${courseDTO.getStatus()}">
+            <a th:href="@{/student/download-pdf}">Отримати сертифікат</a>
+        </div>
+        <div th:else th:if="${!courseDTO.getStatus() && courseDTO.getProgress()==100}">
+            <a>Завершити курс</a>
+        </div>
     </div>
     <div th:case="false">
         <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
