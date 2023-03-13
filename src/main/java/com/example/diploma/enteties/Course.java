@@ -1,8 +1,6 @@
 package com.example.diploma.enteties;
 
 import jakarta.persistence.*;
-
-import java.sql.Date;
 import java.time.LocalDate;
 
 
@@ -43,7 +41,11 @@ public class Course {
     @Column(name="intro_url")
     private String introUrl;
 
-    @Column(name="picture_url")
+    @Column(
+            name="picture_url",
+            columnDefinition = "TEXT",
+            length = 1000
+    )
     private String pictureUrl;
 
     @Column(name="complexity")
