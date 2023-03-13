@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface UserTaskMapRepository extends JpaRepository<UserTaskMap, UserTaskPK> {
     List<UserTaskMap> findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(User user, CourseMaterial courseMaterial);
+
+
 }

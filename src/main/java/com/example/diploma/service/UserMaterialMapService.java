@@ -15,14 +15,6 @@ public class UserMaterialMapService {
 
     private UserCourseMapService userCourseMapService;
 
-    private UserTaskMapRepository userTaskMapRepository;
-
-
-    @Autowired
-    public void setUserTaskMapRepository(UserTaskMapRepository userTaskMapRepository) {
-        this.userTaskMapRepository = userTaskMapRepository;
-    }
-
     @Autowired
     public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
         this.userCourseMapService = userCourseMapService;
@@ -56,18 +48,36 @@ public class UserMaterialMapService {
         return userMaterialMapRepository.findUserCourseMaterialMapByPkCourseMaterialAndPkUserRole(courseMaterial, role);
     }
 
-    public void updateMaterialStatusIfNeeded(CourseMaterial courseMaterial, User user){
-        List<UserTaskMap> userTasksList = userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(user, courseMaterial);
-        if(!userTasksList.isEmpty()) {
-            int countOfRightAnswers = userTasksList.stream()
-                    .map(UserTaskMap::getStatus)
-                    .mapToInt(b -> b ? 1 : 0)
-                    .sum();
-            UserCourseMaterialMap userMaterial = userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
-            if (!userMaterial.getStatus() && countOfRightAnswers == userTasksList.size()) {
-                userMaterial.setStatus(true);
-                saveMaterial(userMaterial);
-            }
-        }
+    public UserCourseMaterialMap getUserCourseMaterialMapByUserAndMaterial(User user, CourseMaterial courseMaterial){
+        return userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
     }
+
+//    public void updateMaterialStatusIfNeeded(CourseMaterial courseMaterial, User user){
+//        List<UserTaskMap> userTasksList = userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(user, courseMaterial);
+//        if(!userTasksList.isEmpty()) {
+//            int countOfRightAnswers = userTasksList.stream()
+//                    .map(UserTaskMap::getStatus)
+//                    .mapToInt(b -> b ? 1 : 0)
+//                    .sum();
+//            UserCourseMaterialMap userMaterial = userMaterialMapRepository.findByPkUserAndPkCourseMaterial(user, courseMaterial);
+//            if (!userMaterial.getStatus() && countOfRightAnswers == userTasksList.size()) {
+//                userMaterial.setStatus(true);
+//                saveMaterial(userMaterial);
+//            }
+//        }
+//    }
+
+
+    public long getCountOfMaterialsOfCourse(User student, CourseMaterial courseMaterial){
+        return userMaterialMapRepository.findUserCourseMaterialMapByPkUserAndPkCourseMaterialCourse(student, courseMaterial.getCourse()).size();
+    }
+
+    public long getCountOfCompletedMaterialsOfCourse(User student, CourseMaterial material){
+        return userMaterialMapRepository.findUserCourseMaterialMapByPkUserAndPkCourseMaterialCourse(student, material.getCourse())
+                .stream()
+                .map(UserCourseMaterialMap::getStatus)
+                .mapToInt(status->status?1:0)
+                .sum();
+    }
+
 }

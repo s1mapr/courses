@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${courseId}, materialId=${materialId})}">finish</a>
+<a th:href="@{/student/checkAnswers/{courseId}/{materialId}(courseId=${courseId}, materialId=${materialId})}">finish</a>
 <script>
     function getCheckboxesValue(obj){
         let checkboxes = document.getElementsByClassName(obj.id);

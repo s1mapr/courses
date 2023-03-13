@@ -10,6 +10,7 @@ import com.itextpdf.text.DocumentException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,6 +41,13 @@ public class StudentController {
     private TaskMaterialService taskMaterialService;
 
     private UserMaterialMapService userMaterialMapService;
+
+    private MaterialCourseService materialCourseService;
+
+    @Autowired
+    public void setMaterialCourseService(MaterialCourseService materialCourseService) {
+        this.materialCourseService = materialCourseService;
+    }
 
     @Autowired
     public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
@@ -90,7 +98,7 @@ public class StudentController {
     public String getAllCourses(Model model,
                                 @ModelAttribute("filter") Filter filter,
                                 HttpSession session) {
-        User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         List<Course> courses = courseService.findAllCourses();
         courses = CourseFilter.doFilter(courses, filter, "");
@@ -109,7 +117,7 @@ public class StudentController {
         User user = (User) session.getAttribute("user");
         boolean wasBought = userCourseMapService.checkUserCourseMapIfExist(user, course.getCourse());
         //userCourseMapService.updateCourseStatusIfNeeded(course.getCourse(), user);
-        if(wasBought){
+        if (wasBought) {
             UserCourseMap userCourseMap = userCourseMapService.getUserCourseByCourseAndUser(course.getCourse(), user);
             course.setStatus(userCourseMap.getStatus());
             course.setProgress(userCourseMap.getProgress());
@@ -148,7 +156,7 @@ public class StudentController {
     @GetMapping("/myCourses")
     public String getBoughtCourses(HttpSession session,
                                    Model model) {
-        User student = (User)session.getAttribute("user");
+        User student = (User) session.getAttribute("user");
         model.addAttribute("user", student);
         List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUser(student);
 //        List<Course> courses = userCourseMaps
@@ -165,11 +173,23 @@ public class StudentController {
                                     @PathVariable("materialId") Long materialId,
                                     HttpSession session,
                                     Model model) {
-        User student = (User)session.getAttribute("user");
+        User student = (User) session.getAttribute("user");
         model.addAttribute("user", student);
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
-        userMaterialMapService.updateMaterialStatusIfNeeded(courseMaterial, student);
+        //userMaterialMapService.updateMaterialStatusIfNeeded(courseMaterial, student);
         return "student/courseMaterial";
+    }
+
+    @GetMapping("/checkAnswers/{courseId}/{materialId}")
+    public String checkAnswers(@PathVariable("courseId") Long courseId,
+                               @PathVariable("materialId") Long materialId,
+                               HttpSession session,
+                               Model model) {
+        User student = (User) session.getAttribute("user");
+        CourseMaterial material = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
+        UserCourseMaterialMap userCourseMaterialMap = userMaterialMapService.getUserCourseMaterialMapByUserAndMaterial(student, material);
+        materialCourseService.changeMaterialProgressAndStatusIfNeeded(student, material, userCourseMaterialMap.getStatus());
+        return "redirect:/student/course/" + courseId + "/courseMaterial/" + materialId;
     }
 
 
@@ -190,10 +210,10 @@ public class StudentController {
     }
 
     @GetMapping("/{userId}/profile")
-    public static String studentProfile(@PathVariable("userId") Long userId,
-                                        HttpSession session,
-                                        Model model) {
-        User user = (User)session.getAttribute("user");
+    public String studentProfile(@PathVariable("userId") Long userId,
+                                 HttpSession session,
+                                 Model model) {
+        User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         return "student/profile";
     }
@@ -206,5 +226,17 @@ public class StudentController {
         response.getOutputStream().write(baos.toByteArray());
         response.getOutputStream().flush();
     }
+
+    @GetMapping("/finishCourse/{courseId}")
+    public String finishCourse(HttpSession session,
+                               @PathVariable("courseId") Long courseId) {
+        User student = (User)session.getAttribute("user");
+        Course course = courseService.getCourseById(courseId);
+        UserCourseMap userCourseMap = userCourseMapService.getUserCourseByCourseAndUser(course, student);
+        userCourseMap.setStatus(true);
+        userCourseMapService.saveUserCourseMap(userCourseMap);
+        return "redirect:/student/course/" + courseId;
+    }
+
 
 }

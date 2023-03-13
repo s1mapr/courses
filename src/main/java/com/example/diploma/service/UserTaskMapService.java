@@ -36,5 +36,18 @@ public class UserTaskMapService {
         }
     }
 
+    public int getCountOfCorrectAnswers(User student, CourseMaterial courseMaterial){
+        return userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(student, courseMaterial)
+                .stream()
+                .map(UserTaskMap::getStatus)
+                .mapToInt(status->status?1:0)
+                .sum();
+    }
+
+    public long getCountOfUserTasks(User student, CourseMaterial courseMaterial){
+        return userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(student, courseMaterial).size();
+    }
+
+
 
 }

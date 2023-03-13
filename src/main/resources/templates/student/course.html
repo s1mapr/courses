@@ -21,7 +21,7 @@
             <a th:href="@{/student/download-pdf}">Отримати сертифікат</a>
         </div>
         <div th:else th:if="${!courseDTO.getStatus() && courseDTO.getProgress()==100}">
-            <a>Завершити курс</a>
+            <a th:href="@{/student/finishCourse/{courseId}(courseId=${id})}">Завершити курс</a>
         </div>
     </div>
     <div th:case="false">
