@@ -43,9 +43,7 @@ public class Course {
 
     @Column(
             name="picture_url",
-            columnDefinition = "TEXT",
-            length = 1000
-    )
+            columnDefinition = "TEXT(1000)")
     private String pictureUrl;
 
     @Column(name="complexity")
@@ -53,6 +51,11 @@ public class Course {
 
     @Column(name="date")
     private LocalDate date = LocalDate.now();
+
+    @Column(name="state",
+    columnDefinition = "VARCHAR(20)")
+    @Enumerated(EnumType.STRING)
+    private CourseStatus state = CourseStatus.PLANNED;
 
 
     public Course() {
@@ -138,6 +141,14 @@ public class Course {
 
     public void setComplexity(String complexity) {
         this.complexity = complexity;
+    }
+
+    public CourseStatus getState() {
+        return state;
+    }
+
+    public void setState(CourseStatus state) {
+        this.state = state;
     }
 
     @Override

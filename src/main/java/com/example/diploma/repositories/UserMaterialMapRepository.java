@@ -15,4 +15,6 @@ public interface UserMaterialMapRepository extends JpaRepository<UserCourseMater
 
     List<UserCourseMaterialMap> findUserCourseMaterialMapByPkUserAndPkCourseMaterialCourse(User user, Course course);
 
+    void deleteAllByPkCourseMaterial(CourseMaterial courseMaterial);
+
 }

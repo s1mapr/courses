@@ -48,6 +48,10 @@ public class UserTaskMapService {
         return userTaskMapRepository.findUserTaskMapByPk_UserAndPk_Task_CourseMaterial(student, courseMaterial).size();
     }
 
+    public void deleteEntriesByTasksCourseMaterial(CourseMaterial courseMaterial){
+        userTaskMapRepository.deleteByPkTaskCourseMaterial(courseMaterial);
+    }
+
 
 
 }

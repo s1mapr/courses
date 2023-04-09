@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserCourseMapRepository extends JpaRepository<UserCourseMap, UserCoursePK>{
 
      List<UserCourseMap> findUserCourseMapByPk_User(User user);
+     List<UserCourseMap> findUserCourseMapByPk_UserAndPkCourseState(User user, CourseStatus state);
 
      List<UserCourseMap> findUserCourseMapByPk_Course(Course course);
 

@@ -31,16 +31,9 @@ public class TeacherController {
 
     private UserMaterialMapService userMaterialMapService;
 
-    private UserService userService;
-
     private TaskMaterialService taskMaterialService;
 
     private AWSService awsService;
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     @Autowired
     public void setAwsService(AWSService awsService) {
@@ -101,7 +94,7 @@ public class TeacherController {
     public String getTeacherCourses(Model model,
                                     HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<UserCourseMap> courses = courseService.getAllUserCourses(user.getId());
+        List<UserCourseMap> courses = userCourseMapService.getListOfUserCourseMapsByUserForTeacher(user);
         model.addAttribute("courses", courses);
         return "teacher/courses";
     }
@@ -173,6 +166,22 @@ public class TeacherController {
         course.setPictureUrl(url);
         courseService.saveCourse(course);
         return "redirect:course/" + courseId;
+    }
+
+    @GetMapping("/deleteCourse/{id}")
+    public String deleteCourse(@PathVariable("id") Long id){
+        Course course = courseService.getCourseById(id);
+        course.setState(CourseStatus.DELETED);
+        courseService.saveCourse(course);
+        return "redirect:/teacher/courses";
+    }
+
+    @GetMapping("/course/{courseId}/deleteMaterial/{id}")
+    public String deleteMaterial(@PathVariable("id") Long id,
+                                 @PathVariable("courseId") Long courseId){
+        CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(id);
+        courseMaterialService.deleteCourseMaterial(courseMaterial);
+        return "redirect:/teacher/course/" + courseId;
     }
 
 }

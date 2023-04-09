@@ -4,7 +4,7 @@ import com.example.diploma.enteties.Course;
 import com.example.diploma.enteties.CourseMaterial;
 import com.example.diploma.repositories.CourseMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +13,26 @@ public class CourseMaterialService {
 
     private CourseMaterialRepository courseMaterialRepository;
 
+    private UserMaterialMapService userMaterialMapService;
+
+    private TaskUserTaskMapService taskUserTaskMapService;
+
+    private VariantService variantService;
+
+
+    @Autowired
+    public void setVariantService(VariantService variantService){
+        this.variantService = variantService;
+    }
+
+    @Autowired
+    public void setTaskUserTaskMapService(TaskUserTaskMapService taskUserTaskMapService) {
+        this.taskUserTaskMapService = taskUserTaskMapService;
+    }
+    @Autowired
+    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
+        this.userMaterialMapService = userMaterialMapService;
+    }
     @Autowired
     public void setCourseMaterialRepository(CourseMaterialRepository courseMaterialRepository) {
         this.courseMaterialRepository = courseMaterialRepository;
@@ -31,4 +51,11 @@ public class CourseMaterialService {
         return courseMaterialRepository.getCourseMaterialsByCourse(course);
     }
 
+    @Transactional
+    public void deleteCourseMaterial(CourseMaterial courseMaterial){
+        variantService.deleteAllByTask(courseMaterial);
+        taskUserTaskMapService.deleteTaskByCourseMaterial(courseMaterial);
+        userMaterialMapService.deleteByCourseMaterial(courseMaterial);
+        courseMaterialRepository.delete(courseMaterial);
+    }
 }

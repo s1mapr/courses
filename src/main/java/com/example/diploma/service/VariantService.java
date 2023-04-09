@@ -1,6 +1,6 @@
 package com.example.diploma.service;
 
-import com.example.diploma.enteties.Task;
+import com.example.diploma.enteties.Course;import com.example.diploma.enteties.CourseMaterial;import com.example.diploma.enteties.Task;
 import com.example.diploma.enteties.Variant;
 import com.example.diploma.repositories.VariantRepository;
 import org.aspectj.weaver.ast.Var;
@@ -33,4 +33,8 @@ public class VariantService {
     public List<Variant> getListOfVariants(Long id){
         return variantRepository.getVariantByTaskId(id);
     }
+
+    public void deleteAllByTask(CourseMaterial courseMaterial){
+        variantRepository.deleteAllByTaskCourseMaterial(courseMaterial);
+    };
 }

@@ -100,7 +100,7 @@ public class StudentController {
                                 HttpSession session) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
-        List<Course> courses = courseService.findAllCourses();
+        List<Course> courses = courseService.findAllStartedCourses();
         courses = CourseFilter.doFilter(courses, filter, "");
         List<User> teachers = userService.getUsersByRole(Role.TEACHER);
         model.addAttribute("teachers", teachers);
@@ -158,7 +158,7 @@ public class StudentController {
                                    Model model) {
         User student = (User) session.getAttribute("user");
         model.addAttribute("user", student);
-        List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUser(student);
+        List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUserForStudent(student);
 //        List<Course> courses = userCourseMaps
 //                .stream()
 //                .map(x -> x.getPk().getCourse())

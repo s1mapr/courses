@@ -1,10 +1,7 @@
 package com.example.diploma.service;
 
 import com.example.diploma.dto.CourseDTO;
-import com.example.diploma.enteties.Course;
-import com.example.diploma.enteties.CourseMaterial;
-import com.example.diploma.enteties.User;
-import com.example.diploma.enteties.UserCourseMap;
+import com.example.diploma.enteties.*;
 import com.example.diploma.repositories.CourseRepository;
 import com.example.diploma.repositories.UserCourseMapRepository;
 import com.example.diploma.repositories.UserRepository;
@@ -64,13 +61,9 @@ public class CourseService {
         return courseRepository.findCourseById(id);
     }
 
-    public List<UserCourseMap> getAllUserCourses(Long id) {
-        User user = userRepository.findUserById(id);
-        return userCourseMapRepository.findUserCourseMapByPk_User(user);
-    }
 
-    public List<Course> findAllCourses(){
-        return courseRepository.findAll();
+    public List<Course> findAllStartedCourses(){
+        return courseRepository.findAllCoursesByState(CourseStatus.STARTED);
     }
 
 }

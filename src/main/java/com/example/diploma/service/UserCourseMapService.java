@@ -40,8 +40,22 @@ public class UserCourseMapService {
         return userCourseMapRepository.findUserCourseMapByPk_Course(course);
     }
 
-    public List<UserCourseMap> getListOfUserCourseMapsByUser(User user) {
-        return userCourseMapRepository.findUserCourseMapByPk_User(user);
+    public List<UserCourseMap> getListOfUserCourseMapsByUserForTeacher(User user) {
+        List<UserCourseMap> userCourseMapsWithStartedState = userCourseMapRepository
+                .findUserCourseMapByPk_UserAndPkCourseState(user, CourseStatus.STARTED);
+        List<UserCourseMap> userCourseMapsWithPlannedState = userCourseMapRepository
+                .findUserCourseMapByPk_UserAndPkCourseState(user, CourseStatus.PLANNED);
+        userCourseMapsWithPlannedState.addAll(userCourseMapsWithStartedState);
+        return userCourseMapsWithPlannedState;
+    }
+
+    public List<UserCourseMap> getListOfUserCourseMapsByUserForStudent(User user) {
+        List<UserCourseMap> userCourseMapsWithStartedState = userCourseMapRepository
+                .findUserCourseMapByPk_UserAndPkCourseState(user, CourseStatus.STARTED);
+        List<UserCourseMap> userCourseMapsWithDeletedState = userCourseMapRepository
+                .findUserCourseMapByPk_UserAndPkCourseState(user, CourseStatus.DELETED);
+        userCourseMapsWithDeletedState.addAll(userCourseMapsWithStartedState);
+        return userCourseMapsWithDeletedState;
     }
 
     public boolean checkUserCourseMapIfExist(User user, Course course) {

@@ -14,4 +14,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Task getTasksById(Long id);
 
+    void deleteAllByCourseMaterial(CourseMaterial courseMaterial);
+
 }

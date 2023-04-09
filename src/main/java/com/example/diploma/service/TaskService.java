@@ -1,6 +1,6 @@
 package com.example.diploma.service;
 
-import com.example.diploma.enteties.CourseMaterial;
+import com.example.diploma.enteties.Course;import com.example.diploma.enteties.CourseMaterial;
 import com.example.diploma.enteties.Task;
 import com.example.diploma.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import java.util.List;
 public class TaskService {
 
     private TaskRepository taskRepository;
+
 
     @Autowired
     public void setTaskRepository(TaskRepository taskRepository) {
@@ -29,5 +30,11 @@ public class TaskService {
     public Task getTaskById(Long id){
         return taskRepository.getTasksById(id);
     }
+
+
+    public void deleteTaskByCourseMaterial(CourseMaterial courseMaterial){
+        taskRepository.deleteAllByCourseMaterial(courseMaterial);
+    }
+
 
 }

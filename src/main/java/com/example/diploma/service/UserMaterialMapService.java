@@ -80,4 +80,8 @@ public class UserMaterialMapService {
                 .sum();
     }
 
+    public void deleteByCourseMaterial(CourseMaterial courseMaterial){
+        userMaterialMapRepository.deleteAllByPkCourseMaterial(courseMaterial);
+    }
+
 }
