@@ -28,7 +28,6 @@ public class TeacherController {
 
     private TaskService taskService;
 
-
     private UserMaterialMapService userMaterialMapService;
 
     private TaskMaterialService taskMaterialService;
@@ -72,7 +71,10 @@ public class TeacherController {
     }
 
     @GetMapping("/createCourse")
-    public String createCourseGetMethod(Model model) {
+    public String createCourseGetMethod(Model model,
+                                        HttpSession session) {
+        User student = (User)session.getAttribute("user");
+        model.addAttribute("user", student);
         model.addAttribute("course", new Course());
         return "teacher/createCourse";
     }
@@ -95,6 +97,7 @@ public class TeacherController {
                                     HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<UserCourseMap> courses = userCourseMapService.getListOfUserCourseMapsByUserForTeacher(user);
+        model.addAttribute("user", user);
         model.addAttribute("courses", courses);
         return "teacher/courses";
     }
@@ -104,14 +107,19 @@ public class TeacherController {
                             Model model,
                             HttpServletRequest request,
                             HttpSession session) {
+        User user = (User)session.getAttribute("user");
         CourseDTO courseInfo = courseService.getCourseData(id);
+        model.addAttribute("user", user);
         model.addAttribute("courseInfo", courseInfo);
         return "teacher/course";
     }
 
     @GetMapping("/course/{id}/newMaterial")
-    public String addNewMaterialGetMethod(@PathVariable("id") Long id
-            , Model model) {
+    public String addNewMaterialGetMethod(@PathVariable("id") Long id,
+                                          Model model,
+                                          HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        model.addAttribute("user", user);
         model.addAttribute("courseMaterial", new CourseMaterial());
         return "teacher/newMaterial";
     }
@@ -134,13 +142,15 @@ public class TeacherController {
     @GetMapping("/course/{idOfCourse}/courseMaterial/{idOfMaterial}")
     public String getCourseMaterial(@PathVariable("idOfCourse") Long courseId,
                                     @PathVariable("idOfMaterial") Long courseMaterialId,
-                                    Model model) {
+                                    Model model, HttpSession session) {
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(courseMaterialId);
         List<Task> listOfTasks = taskService.getMaterialTasks(courseMaterial);
+        User user = (User)session.getAttribute("user");
         model.addAttribute("courseMaterial", courseMaterial);
         model.addAttribute("task", new Task());
         model.addAttribute("variant", new Variant());
         model.addAttribute("tasks", listOfTasks);
+        model.addAttribute("user", user);
         return "teacher/material";
     }
 
@@ -169,18 +179,26 @@ public class TeacherController {
     }
 
     @GetMapping("/deleteCourse/{id}")
-    public String deleteCourse(@PathVariable("id") Long id){
+    public String deleteCourse(@PathVariable("id") Long id,
+                               HttpSession session,
+                               Model model){
+        User user = (User)session.getAttribute("user");
         Course course = courseService.getCourseById(id);
         course.setState(CourseStatus.DELETED);
         courseService.saveCourse(course);
+        model.addAttribute("user", user);
         return "redirect:/teacher/courses";
     }
 
     @GetMapping("/course/{courseId}/deleteMaterial/{id}")
     public String deleteMaterial(@PathVariable("id") Long id,
-                                 @PathVariable("courseId") Long courseId){
+                                 @PathVariable("courseId") Long courseId,
+                                 Model model,
+                                 HttpSession session){
+        User user = (User)session.getAttribute("user");
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(id);
         courseMaterialService.deleteCourseMaterial(courseMaterial);
+        model.addAttribute("user", user);
         return "redirect:/teacher/course/" + courseId;
     }
 

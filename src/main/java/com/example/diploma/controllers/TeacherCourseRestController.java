@@ -1,13 +1,15 @@
 package com.example.diploma.controllers;
 
-import com.example.diploma.enteties.CourseMaterial;
+
 import com.example.diploma.enteties.Task;
+import com.example.diploma.enteties.User;
 import com.example.diploma.enteties.Variant;
-import com.example.diploma.service.CourseMaterialService;
 import com.example.diploma.service.TaskService;
 import com.example.diploma.service.VariantService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +43,12 @@ public class TeacherCourseRestController {
     }
 
     @GetMapping("/task/{id}/variants")
-    public List<Variant> getVariantsOfTask(@PathVariable("id") Long id){
+    public List<Variant> getVariantsOfTask(@PathVariable("id") Long id,
+                                           HttpSession session,
+                                           Model model){
+        User user = (User)session.getAttribute("user");
         Task task = taskService.getTaskById(id);
+        model.addAttribute("user", user);
         return variantService.getListOfVariants(task);
     }
 
@@ -63,6 +69,4 @@ public class TeacherCourseRestController {
         Long id = Long.parseLong(request.getParameter("id"));
         variantService.deleteVariantById(id);
     }
-
-
 }

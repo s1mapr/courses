@@ -4,10 +4,22 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div th:fragment="content">
-  <a href="/teacher/courses">my courses</a>
-  <a href="/teacher/createCourse">create course</a>
-  <a>statistics</a>
+<div class="headerDiv" th:fragment="content">
+    <nav>
+        <ul>
+            <li><a class="headerA" href="/teacher/courses">Мої курси</a></li>
+            <li><a class="headerA" href="/teacher/createCourse">Створити курс</a></li>
+            <li class="dropdown">
+                <a th:text="${user.firstName} + ' ' + ${user.lastName}" href="#">menu</a>
+                <ul class="dropdown-menu">
+                    <div>
+                        <li><a href="/logout">Вийти</a></li>
+                    </div>
+                </ul>
+            </li>
+        </ul>
+    </nav>
 </div>
+
 </body>
 </html>
