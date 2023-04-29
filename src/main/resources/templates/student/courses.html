@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/coursesStyles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/coursesStyles.css}">
     <style>
         body {
             margin: 0;
@@ -53,7 +53,7 @@
             width: 80%;
         }
 
-        .checkbox_element{
+        .checkbox_element {
             width: 100%;
             padding-bottom: 10px;
             border-bottom: 2px solid #E7E7E7;
@@ -65,7 +65,7 @@
             padding-bottom: 10px;
         }
 
-        .price_input{
+        .price_input {
             border: 3px solid #E7E7E7;
             height: 3vh;
             width: 15%;
@@ -74,7 +74,7 @@
             margin-bottom: 10px;
         }
 
-        .submit_input{
+        .submit_input {
             height: 30px;
             width: 20%;
             border-radius: 15px;
@@ -83,7 +83,7 @@
             background-color: white;
         }
 
-        .submit_element{
+        .submit_element {
             margin-top: 5px;
             margin-bottom: 10px;
             display: flex;
@@ -140,10 +140,46 @@
                     </div>
                     <div id="author" class="none_active checkbox">
                         <div th:each="teacher:${teachers}">
-                            <label><input th:id="${teacher.id}" name="author" style="display: inline-block" type="checkbox"
+                            <label><input th:id="${teacher.id}" name="author" style="display: inline-block"
+                                          type="checkbox"
                                           th:value="${teacher.firstName} + ' ' + ${teacher.lastName}">
                                 <p th:text="${teacher.firstName} + ' ' + ${teacher.lastName}"
                                    style="display: inline-block;"></p></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkbox_element">
+                    <div class="checkbox_title" onclick="changeVision('subject')">
+                        <h3>
+                            Предмет
+                        </h3>
+                    </div>
+                    <div id="subject" class="none_active checkbox">
+                        <div>
+                            <label><input id="check4" name="subject" style="display: inline-block" type="checkbox"
+                                          value="math">
+                                <p style="display: inline-block;">Математика</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check5" name="subject" style="display: inline-block" type="checkbox"
+                                          value="ukr">
+                                <p style="display: inline-block;">Українська мова</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check6" name="subject" style="display: inline-block" type="checkbox"
+                                          value="history">
+                                <p style="display: inline-block;">Історія</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check7" name="subject" style="display: inline-block" type="checkbox"
+                                          value="eng">
+                                <p style="display: inline-block;">Англійська мова</p></label>
+                        </div>
+                        <div>
+                            <label><input id="check8" name="subject" style="display: inline-block" type="checkbox"
+                                          value="biology">
+                                <p style="display: inline-block;">Біологія</p></label>
                         </div>
                     </div>
                 </div>
@@ -184,8 +220,7 @@
             <div class="course_description">
                 <div class="course_info">
                     <h3 th:text="${element.courseTitle}"></h3>
-                    <p>vhbjknkmadsdgvjbknkmsdagjbnasf\sjknfksanflkasnfjnasjkfnasjkbfjkasbkfbska bjksbajkfbasjkbfjksabfj
-                        ajkbfjkbsjkbfkjs</p>
+                    <p th:text="${element.description}"></p>
                     <p th:text="${element.teacherName}"></p>
                 </div>
                 <div class="course_price">
@@ -204,12 +239,13 @@
     function changeVision(divId) {
         document.querySelector(`#${divId}`).classList.toggle('none_active')
     }
+
     // Получаем все чекбоксы на странице
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
     // Обходим все чекбоксы и добавляем обработчик события onchange
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
+    checkboxes.forEach(function (checkbox) {
+        checkbox.addEventListener('change', function () {
             // Получаем значение состояния чекбокса
             const isChecked = checkbox.checked;
 
@@ -222,7 +258,7 @@
     });
 
     // Проверяем локальное хранилище при загрузке страницы
-    checkboxes.forEach(function(checkbox) {
+    checkboxes.forEach(function (checkbox) {
         const checkboxId = checkbox.id;
         const savedValue = localStorage.getItem(checkboxId);
 

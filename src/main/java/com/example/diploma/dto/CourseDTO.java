@@ -2,9 +2,15 @@ package com.example.diploma.dto;
 
 import com.example.diploma.enteties.Course;
 import com.example.diploma.enteties.CourseMaterial;
+import lombok.*;
 
 import java.util.List;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseDTO {
 
     private Course course;
@@ -14,37 +20,15 @@ public class CourseDTO {
 
     private Double progress;
 
+    private String ukrValueOfSubject;
 
-    public Course getCourse() {
-        return course;
-    }
+    private String ukrValueOfComplexity;
 
-    public void setCourse(Course course) {
+    public CourseDTO(Course course, Double progress, Boolean status){
         this.course = course;
-    }
-
-    public List<CourseMaterial> getCourseMaterials() {
-        return courseMaterials;
-    }
-
-    public void setCourseMaterials(List<CourseMaterial> courseMaterials) {
-        this.courseMaterials = courseMaterials;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
+        this.progress = progress;
         this.status = status;
     }
 
-    public Double getProgress() {
-        return progress;
-    }
-
-    public void setProgress(Double progress) {
-        this.progress = progress;
-    }
 }
 

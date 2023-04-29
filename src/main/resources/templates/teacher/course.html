@@ -4,30 +4,47 @@
     <meta charset="UTF-8">
     <title th:text="${courseInfo.getCourse().getCourseTitle()}">Course name</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
-
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/teacher/courseStyles.css}">
 </head>
 <body>
 <div th:replace="teacher/header :: content"></div>
-<form method="post" th:action="@{/teacher/uploadCourseImg}" enctype="multipart/form-data">
-    <input type="hidden" name="cId" th:value="${courseInfo.getCourse().getId()}">
-    <input type="file" name="img" accept="image/*" class="form-control-file">
-    <button type="submit">Upload image</button>
-</form>
-
-<img th:src="${courseInfo.course.pictureUrl}">
-
-<p th:text="${courseInfo.getCourse().getCourseTitle()}"></p>
-<p th:text="${courseInfo.getCourse().getTeacherName()}"></p>
-<p th:text="${courseInfo.getCourse().getPrice()}"></p>
-<a th:href="@{/teacher/course/{id}/newMaterial(id=${id})}">add new material</a>
-<div th:each="element : ${courseInfo.getCourseMaterials()}">
-    <div>
-        <a th:href="@{/teacher/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId = ${element.courseMaterialId})}"
-           th:text="${element.materialName}"></a>
+<div class="main_info_div">
+    <div class="info">
+        <div th:style="'background-image:url(' + @{${courseInfo.course.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+             class="course_img">
+        </div>
+        <div class="course_info">
+            <p th:text="'Назва: ' + ${courseInfo.course.courseTitle}"></p>
+            <p th:text="'Опис: ' + ${courseInfo.course.description}"></p>
+            <p th:text="'Предмет: ' + ${courseInfo.ukrValueOfSubject}"></p>
+            <p th:text="'Складність: ' + ${courseInfo.ukrValueOfComplexity}"></p>
+            <p th:text="'Ціна: ' + ${courseInfo.course.price}"></p>
+        </div>
+        <div class="manipulation_buttons_div">
+            <div class="but_div">
+                <a th:href="@{/teacher/editCourse/{id}(id= ${id})}">Редагувати</a>
+            </div>
+            <div class="but_div">
+                <a th:href="@{/teacher/deleteCourse/{id}( id = ${id})}">Видалити</a>
+            </div>
+        </div>
     </div>
 </div>
-<div>
-    <a th:href="@{/teacher/deleteCourse/{id}( id = ${id})}">Видалити курс</a>
+<div class="list_of_courses_div">
+    <h3>Навчальні матеріали:</h3>
+    <ol>
+        <div th:each="element : ${courseInfo.getCourseMaterials()}">
+            <li>
+                <div class="list_items">
+                    <a th:href="@{/teacher/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId = ${element.courseMaterialId})}"
+                       th:text="${element.materialName}"></a>
+                </div>
+            </li>
+        </div>
+    </ol>
+    <div class="new_material_button_div">
+        <a th:href="@{/teacher/course/{id}/newMaterial(id=${id})}">Додати новий матеріал</a>
+    </div>
 </div>
 </body>
 </html>

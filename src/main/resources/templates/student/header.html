@@ -11,18 +11,17 @@
 <div class="headerDiv" th:fragment="content">
     <nav>
         <ul>
-            <li><a class="headerA" href="/student/myCourses">my courses</a></li>
-            <li><a class="headerA" href="/student/courses">courses</a></li>
-            <li><a class="headerA">statistics</a></li>
+            <li><a class="headerA" href="/student/myCourses">Мої курси</a></li>
+            <li><a class="headerA" href="/student/courses">Курси</a></li>
             <li class="dropdown">
                 <a th:text="${user.firstName} + ' ' + ${user.lastName}" href="#">menu</a>
                 <ul class="dropdown-menu">
-                    <div>
-                        <li><a th:href="@{/student/{id}/profile(id=${user.id})}">Профіль</a></li>
-                    </div>
-                    <div>
-                        <li><a href="/authorization">Редагувати профіль</a></li>
-                    </div>
+<!--                    <div>-->
+<!--                        <li><a th:href="@{/student/{id}/profile(id=${user.id})}">Профіль</a></li>-->
+<!--                    </div>-->
+<!--                    <div>-->
+<!--                        <li><a href="/authorization">Редагувати профіль</a></li>-->
+<!--                    </div>-->
                     <div>
                         <li><a href="/logout">Вийти</a></li>
                     </div>

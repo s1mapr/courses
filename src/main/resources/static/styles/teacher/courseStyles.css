@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fbfbfb;
+}
+
+img {
+    width: 100%;
+}
+
+.main_info_div {
+    width: 55%;
+    padding-top: 40px;
+    min-height: 100%;
+    margin: auto;
+    color: black;
+    border-radius: 10px;
+}
+
+.info {
+    display: flex;
+    width: 100%;
+    height: 150px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #9e9c9e;
+    margin-bottom: 15px;
+}
+
+.manipulation_buttons_div {
+    width: 10%;
+    height: 20%;
+    margin: auto 0 auto auto;
+}
+
+.but_div {
+    padding: 10%;
+}
+
+.but_div a {
+    text-decoration-color: #9e9c9e;
+    color: black;
+}
+
+.course_info {
+    width: 55%;
+}
+
+.course_info p {
+    margin: 0;
+    padding: 1%;
+}
+
+
+.course_img {
+    width: 35%;
+}
+
+.list_of_courses_div {
+    width: 55%;
+    margin: auto;
+}
+
+
+.list_of_courses_div ol{
+    margin: 0;
+    padding-left: 2%;
+}
+
+.list_of_courses_div a{
+    text-decoration: none;
+    color: black;
+}
+
+
+.list_items{
+    margin: 0;
+    padding: 0.5%;
+}
+
+.new_material_button_div{
+    width: 21%;
+    margin-left: auto;
+}

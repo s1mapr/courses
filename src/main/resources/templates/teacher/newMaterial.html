@@ -4,29 +4,107 @@
     <meta charset="UTF-8">
     <title>New material</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
 
+        .main_div {
+            display: flex;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 55%;
+            width: 30%;
+            margin: auto;
+            -webkit-box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            -moz-box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            box-shadow: 0px 3px 11px 0px rgba(61, 61, 61, 0.66);
+            background-color: white;
+        }
+
+        .input_div {
+            height: 4vh;
+            width: 60%;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+        .input_div p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .input_div input {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #E7E7E7;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+        .submit_input {
+            height: 25px;
+            border-radius: 10px;
+            border-color: #E7E7E7;
+            outline: none;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+
+        h3 {
+            margin-top: 10px;
+            padding: 0;
+        }
+        .div_a{
+            width: 10%;
+            margin-left: 20px;
+            margin-right: auto;
+        }
+
+        .div_a a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="teacher/header :: content"></div>
-<form method="post" th:action="@{/teacher/course/newMaterial}" th:object="${courseMaterial}">
-    <div>
-        <input type="text" name="videoUrl" placeholder="video url">
-    </div>
-    <div>
-        <input type="text" name="documentUrl" placeholder="document url">
-    </div>
-    <div>
-        <input type="text" name="materialName" placeholder="material name">
-    </div>
-    <div>
-        <input type="hidden" name="cId" th:value="${id}">
-    </div>
-    <div>
-        <textarea name="description" placeholder="description"></textarea>
-    </div>
-    <div>
-        <input type="submit" value="create course">
-    </div>
-</form>
+<div class="main_div">
+    <form method="post" class="form" th:action="@{/teacher/course/newMaterial}" th:object="${courseMaterial}">
+        <h3>Створення матеріалу</h3>
+        <div class="input_div">
+            <input type="text" name="materialName" placeholder="Назва матеріалу">
+        </div>
+        <div class="input_div">
+            <input type="text" name="description" placeholder="Опис">
+        </div>
+        <div class="input_div">
+            <input type="text" name="videoUrl" placeholder="Посилання на відео">
+        </div>
+        <div class="input_div">
+            <input type="text" name="documentUrl" placeholder="Посилання на документ">
+        </div>
+        <div>
+            <input type="hidden" name="cId" th:value="${id}">
+        </div>
+        <div>
+            <input class="submit_input" type="submit" value="Створити курс">
+        </div>
+        <div class="div_a">
+            <a th:href="@{/teacher/course/{id}(id= ${id})}">Назад</a>
+        </div>
+    </form>
+</div>
 </body>
 </html>

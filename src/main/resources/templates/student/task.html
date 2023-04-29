@@ -3,35 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <title>Task</title>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
 
+        .headerDiv {
+            padding: 0 15px 0 15px;
+        }
+
+        .center {
+            width: 100%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .main_div {
+            width: 25%;
+            height: 55%;
+        }
+
+        .elements_div {
+
+        }
+
+        .element_div {
+            display: flex;
+            align-items: center;
+        }
+
+        .h3_div {
+            text-align: center;
+            border-bottom: 1px solid black;
+        }
+
+        .element_div button {
+            height: 50%;
+            margin: 0 8px;
+        }
+
+        .input_div {
+            height: 4vh;
+            width: 100%;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            border-top: 1px solid black;
+        }
+
+
+        .input_div_input {
+            padding: 5px 8px;
+            width: 30%;
+            height: 30%;
+            border: 1px solid #E7E7E7;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+        .submit_input {
+            height: 25px;
+            border: 1px solid black;
+            border-radius: 10px;
+            outline: none;
+            background-color: white;
+        }
+
+        .flex_div {
+            display: flex;
+            justify-content: center;
+        }
+
+        .center_submit {
+            display: flex;
+            justify-content: center;
+        }
+
+        .variants_container {
+            display: flex;
+            align-items: center;
+        }
+
+        .variants_container p {
+            margin: 0;
+        }
+
+        .tasks_container {
+            width: 25%;
+        }
+
+        .task {
+            padding-bottom: 10px;
+            border-bottom: 1px solid black;
+            margin-bottom: 10px;
+        }
+
+        .finish_div {
+            width: 25%;
+        }
+
+        .finish_div_inner {
+            width: 45%;
+            margin-left: auto;
+        }
+
+        a{
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-
-<div th:each="task:${tasks}">
-    <div th:if="${task.variants.size() > 0}">
-    <p th:text="${task.task.taskName}"></p>
-    <div th:each="variant:${task.variants}">
-        <input th:class="${task.task.id}" type="checkbox">
-        <p th:text="${variant.value}"></p>
+<div th:replace="teacher/header :: content"></div>
+<div class="center">
+    <div class="tasks_container" th:each="task:${tasks}">
+        <div class="task" th:if="${task.variants.size() > 0}">
+            <div>
+                <p th:text="${task.task.taskName}"></p>
+                <p th:text="${task.task.description}"></p>
+            </div>
+            <div class="variants_container" th:each="variant:${task.variants}">
+                <div>
+                    <input th:class="${task.task.id}" type="checkbox">
+                </div>
+                <div>
+                    <p th:text="${variant.value}"></p>
+                </div>
+            </div>
+            <div class="flex_div">
+                <input class="submit_input" th:id="${task.task.id}" onclick="getCheckboxesValue(this)" type="submit"
+                       value="Надіслати відповідь">
+            </div>
+        </div>
     </div>
-    <input th:id="${task.task.id}" onclick="getCheckboxesValue(this)" type="submit" value="send">
+    <div class="finish_div">
+        <div class="finish_div_inner">
+            <a th:href="@{/student/checkAnswers/{courseId}/{materialId}(courseId=${courseId}, materialId=${materialId})}">Завершити завдання</a>
+        </div>
     </div>
 </div>
 
-<a th:href="@{/student/checkAnswers/{courseId}/{materialId}(courseId=${courseId}, materialId=${materialId})}">finish</a>
 <script>
-    function getCheckboxesValue(obj){
+    function getCheckboxesValue(obj) {
         let checkboxes = document.getElementsByClassName(obj.id);
         let answer = '';
         for (let index = 0; index < checkboxes.length; index++) {
-            checkboxes[index].checked?answer+="1":answer+="0";
+            checkboxes[index].checked ? answer += "1" : answer += "0";
         }
         $.ajax({
             method: "POST",
-            url:"/student/course/checkAnswers",
-            data:{taskId: obj.id, taskAnswer: answer}
+            url: "/student/course/checkAnswers",
+            data: {taskId: obj.id, taskAnswer: answer}
         })
     }
 </script>

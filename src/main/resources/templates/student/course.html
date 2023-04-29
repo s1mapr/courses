@@ -4,31 +4,153 @@
     <meta charset="UTF-8">
     <title>Курс</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        .headerDiv {
+            padding: 0 15px 0 15px;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .main_info_div {
+            width: 55%;
+            padding-top: 40px;
+            min-height: 100%;
+            margin: auto;
+            color: black;
+            border-radius: 10px;
+        }
+
+        .info {
+            display: flex;
+            width: 100%;
+            height: 150px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #9e9c9e;
+            margin-bottom: 15px;
+        }
+
+        .manipulation_buttons_div {
+            width: 10%;
+            height: 20%;
+            margin: auto 0 auto auto;
+        }
+
+        .but_div {
+            padding: 10%;
+        }
+
+        .but_div a {
+            text-decoration-color: #9e9c9e;
+            color: black;
+        }
+
+        .course_info {
+            width: 55%;
+        }
+
+        .course_info p {
+            margin: 0;
+            padding: 1%;
+        }
+
+
+        .course_img {
+            width: 35%;
+        }
+
+        .list_of_courses_div {
+            width: 55%;
+            margin: auto;
+        }
+
+
+        .list_of_courses_div ol{
+            margin: 0;
+            padding-left: 2%;
+        }
+
+        .list_of_courses_div a{
+            text-decoration: none;
+            color: black;
+        }
+
+
+        .list_items{
+            margin: 0;
+            padding: 0.5%;
+        }
+
+        .new_material_button_div{
+            width: 21%;
+            margin-left: auto;
+        }
+
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
-
-<p th:text="${courseDTO.course.getCourseTitle()}"></p>
-<div>
-    <iframe width="560" height="315" th:src="${courseDTO.course.introUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div class="main_info_div">
+    <div class="info">
+        <div th:style="'background-image:url(' + @{${courseDTO.course.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+             class="course_img">
+        </div>
+        <div class="course_info">
+            <p th:text="'Назва: ' + ${courseDTO.course.courseTitle}"></p>
+            <p th:text="'Опис: ' + ${courseDTO.course.description}"></p>
+            <p th:text="'Предмет: ' + ${courseDTO.ukrValueOfSubject}"></p>
+            <p th:text="'Складність: ' + ${courseDTO.ukrValueOfComplexity}"></p>
+            <p th:text="'Ціна: ' + ${courseDTO.course.price}"></p>
+            <p th:text="'Автор: ' + ${courseDTO.course.teacherName}"></p>
+        </div>
+    </div>
 </div>
+
 <div th:switch="${wasBought}">
     <div th:case="true">
-        <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
-            <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId=${courseMaterial.courseMaterialId})}" th:text="${courseMaterial.materialName}"></a>
-        </div>
-        <div th:if="${courseDTO.getStatus()}">
-            <a th:href="@{/student/download-pdf}">Отримати сертифікат</a>
-        </div>
-        <div th:else th:if="${!courseDTO.getStatus() && courseDTO.getProgress()==100}">
-            <a th:href="@{/student/finishCourse/{courseId}(courseId=${id})}">Завершити курс</a>
+        <div class="list_of_courses_div">
+            <h3>Навчальні матеріали:</h3>
+            <ol>
+                <div th:each="element : ${courseDTO.getCourseMaterials()}">
+                    <li>
+                        <div class="list_items">
+                            <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}(courseId=${id}, materialId=${element.courseMaterialId})}" th:text="${element.materialName}"></a>
+                        </div>
+                    </li>
+                </div>
+            </ol>
+            <div th:if="${courseDTO.getStatus()}">
+                <a th:href="@{/student/download-pdf}">Отримати сертифікат</a>
+            </div>
+            <div th:else th:if="${!courseDTO.getStatus() && courseDTO.getProgress()==100}">
+                <a th:href="@{/student/finishCourse/{courseId}(courseId=${id})}">Завершити курс</a>
+            </div>
         </div>
     </div>
     <div th:case="false">
-        <div th:each="courseMaterial:${courseDTO.getCourseMaterials()}">
-            <p th:text="${courseMaterial.materialName}"></p>
+        <div class="list_of_courses_div">
+            <h3>Навчальні матеріали:</h3>
+            <ol>
+                <div th:each="element : ${courseDTO.getCourseMaterials()}">
+                    <li>
+                        <div class="list_items">
+                            <p th:text="${element.materialName}"></p>
+                        </div>
+                    </li>
+                </div>
+            </ol>
+            <a th:href="@{/student/course/{id}/buy(id=${id})}">Придбати курс</a>
         </div>
-        <a th:href="@{/student/course/{id}/buy(id=${id})}">buy</a>
     </div>
 </div>
 

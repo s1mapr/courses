@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,71 +23,28 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/student")
+@RequiredArgsConstructor
 public class StudentController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private CourseService courseService;
+    private final CourseService courseService;
 
-    private UserCourseMapService userCourseMapService;
+    private final UserCourseMapService userCourseMapService;
 
-    private CourseMaterialService courseMaterialService;
+    private final CourseMaterialService courseMaterialService;
 
-    private TaskService taskService;
+    private final TaskService taskService;
 
-    private VariantService variantService;
+    private final VariantService variantService;
 
+    private final TaskMaterialService taskMaterialService;
 
-    private TaskMaterialService taskMaterialService;
+    private final UserMaterialMapService userMaterialMapService;
 
-    private UserMaterialMapService userMaterialMapService;
+    private final MaterialCourseService materialCourseService;
 
-    private MaterialCourseService materialCourseService;
-
-    @Autowired
-    public void setMaterialCourseService(MaterialCourseService materialCourseService) {
-        this.materialCourseService = materialCourseService;
-    }
-
-    @Autowired
-    public void setUserMaterialMapService(UserMaterialMapService userMaterialMapService) {
-        this.userMaterialMapService = userMaterialMapService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    public void setTaskMaterialService(TaskMaterialService taskMaterialService) {
-        this.taskMaterialService = taskMaterialService;
-    }
-
-    @Autowired
-    public void setVariantService(VariantService variantService) {
-        this.variantService = variantService;
-    }
-
-    @Autowired
-    public void setTaskService(TaskService taskService) {
-        this.taskService = taskService;
-    }
-
-    @Autowired
-    public void setCourseMaterialService(CourseMaterialService courseMaterialService) {
-        this.courseMaterialService = courseMaterialService;
-    }
-
-    @Autowired
-    public void setUserCourseMapService(UserCourseMapService userCourseMapService) {
-        this.userCourseMapService = userCourseMapService;
-    }
-
-    @Autowired
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
+    private final UserTaskMapService userTaskMapService;
 
     @GetMapping("/mainPage")
     public String getUserMainPage() {
@@ -101,7 +58,8 @@ public class StudentController {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
         List<Course> courses = courseService.findAllStartedCourses();
-        courses = CourseFilter.doFilter(courses, filter, "");
+        CourseFilter courseFilter = new CourseFilter(courses, filter);
+        courses = courseFilter.doFilter();
         List<User> teachers = userService.getUsersByRole(Role.TEACHER);
         model.addAttribute("teachers", teachers);
         model.addAttribute("courses", courses);
@@ -127,12 +85,7 @@ public class StudentController {
         model.addAttribute("courseDTO", course);
         return "student/course";
     }
-
-
-    public String filterCourses() {
-        return null;
-    }
-
+    
     @GetMapping("/course/{id}/buy")
     public String buyCourse(@PathVariable("id") Long id,
                             Model model,
@@ -155,15 +108,19 @@ public class StudentController {
 
     @GetMapping("/myCourses")
     public String getBoughtCourses(HttpSession session,
-                                   Model model) {
+                                   Model model,
+                                   @ModelAttribute("filter") Filter filter) {
         User student = (User) session.getAttribute("user");
         model.addAttribute("user", student);
         List<UserCourseMap> userCourseMaps = userCourseMapService.getListOfUserCourseMapsByUserForStudent(student);
-//        List<Course> courses = userCourseMaps
-//                .stream()
-//                .map(x -> x.getPk().getCourse())
-//                .toList();
-        model.addAttribute("courses", userCourseMaps);
+        List<CourseDTO> courses = userCourseMaps
+                .stream()
+                .map(x-> new CourseDTO(x.getPk().getCourse(), x.getProgress(), x.getStatus()))
+                .toList();
+        CourseFilter courseFilter = new CourseFilter();
+        courses = courseFilter.doFilterForDTO(courses, filter);
+        model.addAttribute("courses", courses);
+        model.addAttribute("filter", filter);
         return "student/myCourses";
     }
 
@@ -176,6 +133,9 @@ public class StudentController {
         User student = (User) session.getAttribute("user");
         model.addAttribute("user", student);
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
+        model.addAttribute("material", courseMaterial);
+        UserCourseMaterialMap userCourseMaterialMap = userMaterialMapService.getUserCourseMaterialMapByUserAndMaterial(student, courseMaterial);
+        model.addAttribute("status", userCourseMaterialMap);
         //userMaterialMapService.updateMaterialStatusIfNeeded(courseMaterial, student);
         return "student/courseMaterial";
     }
@@ -196,9 +156,11 @@ public class StudentController {
     @GetMapping("/course/{courseId}/courseMaterial/{materialId}/task")
     public String getMaterialTests(@PathVariable("courseId") Long courseId,
                                    @PathVariable("materialId") Long materialId,
-                                   Model model) {
+                                   Model model,
+                                   HttpSession session) {
 
         CourseMaterial courseMaterial = courseMaterialService.getCourseMaterialByCourseMaterialId(materialId);
+        User user = (User)session.getAttribute("user");
         List<Task> tasks = taskService.getMaterialTasks(courseMaterial);
         List<TaskDTO> taskDTOS = new ArrayList<>();
         for (Task task : tasks) {
@@ -206,6 +168,7 @@ public class StudentController {
             taskDTOS.add(new TaskDTO(task, variants));
         }
         model.addAttribute("tasks", taskDTOS);
+        model.addAttribute("user", user);
         return "student/task";
     }
 

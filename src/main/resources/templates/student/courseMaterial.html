@@ -4,11 +4,58 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
 
+        .main_div {
+            padding-top: 30px;
+            height: 80vh;
+        }
+
+        .input_div input {
+            box-sizing: border-box;
+            padding: 5px 8px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #E7E7E7;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+        a {
+            color: black;
+        }
+        .video-div {
+            width: 40%;
+            margin: 0 auto 0 auto;
+        }
+
+        .elements_div {
+            width: 40%;
+            padding-top: 10px;
+            border-top: 1px solid black;
+            margin: 10px auto 0 auto;
+        }
+
+    </style>
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
-
-<a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}/task(courseId=${courseId}, materialId=${materialId})}">tests</a>
+<div class="main_div">
+    <div class="video-div">
+        <iframe width="100%" height="360" th:src="${material.videoUrl}" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+    <div class="elements_div">
+        <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}/task(courseId=${courseId}, materialId=${materialId})}">Пройти тести</a>
+        <p th:text="'(Ваш минулий результат: ' + ${status.getProgress()} + '%)'"></p>
+        <a th:href="@{/student/course/{courseId}(courseId=${courseId})}">Назад</a>
+    </div>
+</div>
 </body>
 </html>

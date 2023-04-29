@@ -86,7 +86,7 @@ public class TeacherController {
         User user = (User) session.getAttribute("user");
         String teacherName = user.getFirstName() + " " + user.getLastName();
         course.setTeacherName(teacherName);
-        course.setPictureUrl("/styles/defaultCourseImg.jpg");
+        course.setPictureUrl("/images/defaultCourseImg.jpg");
         courseService.saveCourse(course);
         userCourseMapService.saveUserCourseMap(new UserCourseMap(new UserCoursePK(course, user)));
         return "redirect:course/" + course.getId();
@@ -96,7 +96,11 @@ public class TeacherController {
     public String getTeacherCourses(Model model,
                                     HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<UserCourseMap> courses = userCourseMapService.getListOfUserCourseMapsByUserForTeacher(user);
+        List<Course> courses = userCourseMapService
+                .getListOfUserCourseMapsByUserForTeacher(user)
+                .stream()
+                .map(x-> x.getPk().getCourse())
+                .toList();
         model.addAttribute("user", user);
         model.addAttribute("courses", courses);
         return "teacher/courses";
@@ -200,6 +204,25 @@ public class TeacherController {
         courseMaterialService.deleteCourseMaterial(courseMaterial);
         model.addAttribute("user", user);
         return "redirect:/teacher/course/" + courseId;
+    }
+
+    @GetMapping("/editCourse/{id}")
+    public String editCourse(@PathVariable("id") Long courseId,
+                             Model model,
+                             HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        Course course = courseService.getCourseById(courseId);
+        model.addAttribute("user", user);
+        model.addAttribute("course", course);
+        return "teacher/editCourse";
+    }
+
+    @PostMapping("/editCourse")
+    public String editCoursePostMethod(@ModelAttribute("course") Course course,
+                                       HttpSession session){
+        User user = (User)session.getAttribute("user");
+        courseService.saveCourse(course);
+        return "redirect:/teacher/course/"+course.getId();
     }
 
 }

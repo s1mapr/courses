@@ -31,7 +31,7 @@
         }
 
         .input_div {
-            height: 3.5vh;
+            height: 4vh;
             width: 60%;
             padding-bottom: 10px;
             padding-top: 10px;
@@ -65,8 +65,8 @@
 
         .submit_input {
             height: 25px;
-            border: 1px solid black;
             border-radius: 10px;
+            border-color: #E7E7E7;
             outline: none;
             background-color: white;
             margin-top: 10px;
@@ -86,45 +86,55 @@
 <body>
 <div th:replace="teacher/header :: content"></div>
 <div class="main_div">
-    <form method="post" class="form" th:action="@{/teacher/createCourse}" th:object="${course}">
-        <h3>Створення курсу</h3>
+    <form method="post" class="form" th:action="@{/teacher/editCourse}" th:object="${course}">
+        <h3>Редагування курсу</h3>
         <div class="input_div">
-            <input type="text" name="courseTitle" placeholder="Назва курсу">
+            <input th:value="${course.courseTitle}" type="text" name="courseTitle" placeholder="Назва курсу">
         </div>
         <div class="input_div">
-            <input type="text" name="description" placeholder="Короткий опис курсу">
+            <input th:value="${course.description}" type="text" name="description" placeholder="Короткий опис курсу">
 
         </div>
         <div class="input_div">
-            <input type="text" name="description" placeholder="Посилання на вступне відео">
+            <input th:value="${course.introUrl}" type="text" name="introUrl" placeholder="Посилання на вступне відео">
         </div>
         <div class="input_div">
             <p>Оберіть складність:</p>
             <select name="complexity" class="form-select" onfocus='this.size=1;' onblur='this.size=1;'
                     onchange='this.size=1; this.blur();'>
-                <option value="BEGINNER">Початковий</option>
-                <option value="INTERMEDIATE" selected>Середній</option>
-                <option value="EXPERT">Високий</option>
+                <option value="BEGINNER" th:selected="${course.complexity.toString() eq 'BEGINNER'}">Початковий</option>
+                <option value="INTERMEDIATE" th:selected="${course.complexity.toString() eq 'INTERMEDIATE'}">Середній</option>
+                <option value="EXPERT" th:selected="${course.complexity.toString() eq 'EXPERT'}">Високий</option>
             </select>
         </div>
         <div class="input_div">
             <p>Оберіть предмет:</p>
             <select name="subject" class="form-select" onfocus='this.size=1;' onblur='this.size=1;'
                     onchange='this.size=1; this.blur();'>
-                <option value="MATH">Математика</option>
-                <option value="UKR" selected>Українська мова</option>
-                <option value="HISTORY">Історія</option>
-                <option value="ENG">Англійскька мова</option>
-                <option value="BIOLOGY">Біологія</option>
+                <option value="MATH" th:selected="${course.subject.toString() eq 'MATH'}">Математика</option>
+                <option value="UKR" th:selected="${course.subject.toString() eq 'UKR'}">Українська мова</option>
+                <option value="HISTORY" th:selected="${course.subject.toString() eq 'HISTORY'}">Історія</option>
+                <option value="ENG" th:selected="${course.subject.toString() eq 'ENG'}">Англійскька мова</option>
+                <option value="BIOLOGY" th:selected="${course.subject.toString() eq 'BIOLOGY'}">Біологія</option>
             </select>
         </div>
         <div class="input_div">
-            <input type="text" name="price" placeholder="Ціна">
+            <input th:value="${course.price}" type="text" name="price" placeholder="Ціна">
         </div>
+        <input th:value="${course.getDate()}" type="hidden" name="date">
+        <input th:value="${course.getTeacherName()}" type="hidden" name="teacherName">
+        <input th:value="${course.getPictureUrl()}" type="hidden" name="pictureUrl">
+        <input th:value="${course.getId()}" type="hidden" name="id">
+        <input th:value="${course.getState()}" type="hidden" name="state">
         <div>
-            <input class="submit_input" type="submit" value="Створити матеріал">
+            <input class="submit_input" type="submit" value="Створити курс">
         </div>
     </form>
 </div>
 </body>
 </html>
+<!--<form method="post" th:action="@{/teacher/uploadCourseImg}" enctype="multipart/form-data">-->
+<!--  <input type="hidden" name="cId" th:value="${courseInfo.getCourse().getId()}">-->
+<!--  <input type="file" name="img" accept="image/*" class="form-control-file">-->
+<!--  <button type="submit">Upload image</button>-->
+<!--</form>-->

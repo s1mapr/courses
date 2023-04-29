@@ -4,30 +4,164 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+        }
 
+        .main_div {
+            padding-top: 30px;
+            height: 80vh;
+        }
+
+        .input_div {
+            height: 4vh;
+            width: 100%;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+
+
+        .input_div input {
+            box-sizing: border-box;
+            padding: 5px 8px;
+            width: 100%;
+            height: 100%;
+            border: 1px solid #E7E7E7;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+        .submit_input {
+            margin: 0;
+            height: 25px;
+            border: 1px solid black;
+            border-radius: 10px;
+            outline: none;
+            background-color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .edit-btn {
+        }
+
+        .edit-form {
+            display: none;
+        }
+
+        .edit-form-active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 20%;
+            width: 20%;
+            margin: auto;
+            padding-bottom: 30px;
+        }
+
+        .video-div {
+            width: 40%;
+            margin: 0 auto 0 auto;
+        }
+
+        .elements_div {
+            width: 40%;
+            padding-top: 10px;
+            border-top: 1px solid black;
+            margin: 10px auto 0 auto;
+        }
+
+        .element_div {
+            padding-top: 8px;
+            margin-right: auto;
+        }
+
+        .manipulation_buttons_div{
+            width: 40%;
+            margin: 0 auto 0 auto;
+        }
+
+        .remove_material{
+            width: fit-content;
+            margin-left: auto;
+            margin-bottom: 50px;
+        }
+
+        .form_btns{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .back_btn{
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="teacher/header :: content"></div>
-<div>
-<iframe width="560" height="315" th:src="${courseMaterial.videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
-<div th:each="element : ${tasks}">
-     <a th:href="@{/teacher/course/{courseId}/courseMaterial/{materialId}/task/{taskId}(courseId=${idOfCourse}, materialId=${idOfMaterial},taskId=${element.id})}" th:text="${element.taskName}"></a>
-</div>
-
-<form method="post" th:action="@{/teacher/createNewTask}" th:object="${task}">
-    <input name="taskName" placeholder="task name">
-    <textarea name="description" placeholder="description"></textarea>
-    <div>
-        <input type="hidden" name="cId" th:value="${idOfCourse}">
+<div class="main_div">
+    <div class="video-div">
+        <iframe width="100%" height="360" th:src="${courseMaterial.videoUrl}" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
     </div>
-    <div>
-        <input type="hidden" name="cmId" th:value="${idOfMaterial}">
+    <div class="elements_div">
+        <div class="element_div" th:each="element : ${tasks}">
+            <a th:href="@{/teacher/course/{courseId}/courseMaterial/{materialId}/task/{taskId}(courseId=${idOfCourse}, materialId=${idOfMaterial},taskId=${element.id})}"
+               th:text="${element.taskName}"></a>
+        </div>
     </div>
-    <input type="submit" value="create task">
-</form>
 
-<a th:href="@{/teacher/course/{courseId}/deleteMaterial/{materialId}(courseId=${idOfCourse}, materialId=${idOfMaterial})}">Видалити матеріал</a>
+    <form class="edit-form" method="post" th:action="@{/teacher/createNewTask}" th:object="${task}">
+        <div class="input_div">
+            <input name="taskName" placeholder="Назва завдання">
+        </div>
+        <div class="input_div">
+            <input name="description" placeholder="Опис завдання">
+        </div>
+        <div>
+            <input type="hidden" name="cId" th:value="${idOfCourse}">
+        </div>
+        <div>
+            <input type="hidden" name="cmId" th:value="${idOfMaterial}">
+        </div>
+        <div class="form_btns">
+            <p class="back_btn">Назад</p>
+            <input class="submit_input" type="submit" value="Створити завдання">
+        </div>
+    </form>
+    <div class="manipulation_buttons_div">
+        <div>
+            <p class="edit-btn">Додати завдання</p>
+        </div>
+        <div class="remove_material">
+            <a th:href="@{/teacher/course/{courseId}/deleteMaterial/{materialId}(courseId=${idOfCourse}, materialId=${idOfMaterial})}">Видалити
+                матеріал</a>
+        </div>
+    </div>
+</div>
 
+<script>
+    document.querySelector(".edit-btn").addEventListener("click", () => {
+        document.querySelector(".edit-form").classList.toggle("edit-form-active")
+    })
+
+    document.querySelector(".edit-btn").addEventListener("click", () => {
+        document.querySelector(".edit-btn").style.display = "none"
+    })
+
+    document.querySelector(".back_btn").addEventListener("click", () => {
+        document.querySelector(".edit-form").classList.toggle("edit-form-active")
+        document.querySelector(".edit-btn").style.display="block"
+    })
+
+</script>
 </body>
 </html>

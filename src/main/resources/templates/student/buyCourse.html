@@ -4,14 +4,101 @@
     <meta charset="UTF-8">
     <title>Buy</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/student/buyCourse.css}">
 
 </head>
 <body>
 
-<form method="post" th:action="@{/student/buyCourse}">
-  <input type="hidden" name="id" th:value="${id}">
-  <input type="submit">
-</form>
-
 </body>
+
+<div class="container">
+
+    <div class="card-container">
+
+        <div class="front">
+            <div class="image">
+                <img th:src="@{/images/chip.png}">
+                <img th:src="@{/images/visa.png}">
+            </div>
+            <div class="card-number-box">################</div>
+            <div class="flexbox">
+                <div class="box">
+                    <span>Власник картки</span>
+                    <div class="card-holder-name">Повне ім'я</div>
+                </div>
+                <div class="box">
+                    <span>Срок дії</span>
+                    <div class="expiration">
+                        <span class="exp-input">мм/рр</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back">
+            <div class="stripe"></div>
+            <div class="box">
+                <span>cvv</span>
+                <div class="cvv-box"></div>
+                <img th:src="@{images/visa.png}" alt="">
+            </div>
+        </div>
+
+    </div>
+    <form method="post" th:action="@{/student/buyCourse}">
+        <div class="inputBox">
+            <input type="text" maxlength="16" class="card-number-input" name="cardNumber" placeholder="Номер картки">
+        </div>
+        <div class="inputBox">
+            <input type="text" class="card-holder-input" name="cardHolder" placeholder="Власник картки">
+        </div>
+        <div class="flexbox">
+            <div class="inputBox">
+                <input class="expy-input" name="expiryDate" placeholder="Срок дії">
+                <br>
+            </div>
+
+            <div class="inputBox">
+                <input type="text" maxlength="4" class="cvv-input" name="cvv" placeholder="cvv">
+                <br>
+            </div>
+        </div>
+        <input type="hidden" name="id" th:value="${id}">
+        <input type="submit" value="Сплатити" class="submit-btn">
+    </form>
+
+</div>
+
+
+<script>
+
+    document.querySelector('.card-number-input').oninput = () => {
+        document.querySelector('.card-number-box').innerText = document.querySelector('.card-number-input').value;
+    }
+
+    document.querySelector('.card-holder-input').oninput = () => {
+        document.querySelector('.card-holder-name').innerText = document.querySelector('.card-holder-input').value;
+    }
+
+    document.querySelector('.expy-input').oninput = () => {
+        document.querySelector('.exp-input').innerText = document.querySelector('.expy-input').value;
+    }
+
+    document.querySelector('.cvv-input').onmouseenter = () => {
+        document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(-180deg)';
+        document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(0deg)';
+    }
+
+    document.querySelector('.cvv-input').onmouseleave = () => {
+        document.querySelector('.front').style.transform = 'perspective(1000px) rotateY(0deg)';
+        document.querySelector('.back').style.transform = 'perspective(1000px) rotateY(180deg)';
+    }
+
+    document.querySelector('.cvv-input').oninput = () => {
+        document.querySelector('.cvv-box').innerText = document.querySelector('.cvv-input').value;
+    }
+
+
+</script>
+
 </html>
