@@ -130,7 +130,7 @@
                 </div>
             </ol>
             <div th:if="${courseDTO.getStatus()}">
-                <a th:href="@{/student/download-pdf}">Отримати сертифікат</a>
+                <a th:href="@{/student/download-pdf/{id}(id = ${id})}">Отримати сертифікат</a>
             </div>
             <div th:else th:if="${!courseDTO.getStatus() && courseDTO.getProgress()==100}">
                 <a th:href="@{/student/finishCourse/{courseId}(courseId=${id})}">Завершити курс</a>

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -38,10 +39,11 @@ public class CourseFilter {
     return listOfCourses;
   }
 
-  public List<CourseDTO> doFilterForDTO(List<CourseDTO> courseDTOS, Filter filter){
+  public List<CourseDTO> doFilterForDTO(List<CourseDTO> courseDTOS, Filter filter) {
     this.listOfCourseDTOS = courseDTOS;
     this.filter = filter;
     nameFilterForDTO(filter.getTitle());
+    sort(filter.getSortParameter());
     return listOfCourseDTOS;
   }
 
@@ -90,9 +92,10 @@ public class CourseFilter {
   private void nameFilterForDTO(String name) {
     if (Objects.nonNull(name)) {
       listOfCourseDTOS =
-              listOfCourseDTOS.stream()
-                      .filter(x -> (x.getCourse().getCourseTitle().toLowerCase().contains(name.toLowerCase())))
-                      .collect(Collectors.toList());
+          listOfCourseDTOS.stream()
+              .filter(
+                  x -> (x.getCourse().getCourseTitle().toLowerCase().contains(name.toLowerCase())))
+              .collect(Collectors.toList());
     }
   }
 
@@ -120,6 +123,33 @@ public class CourseFilter {
           listOfCourses.stream()
               .filter(x -> (subjects.contains(x.getSubject().toString().toLowerCase())))
               .collect(Collectors.toList());
+    }
+  }
+
+  private void sort(String sortParameter) {
+    if (Objects.nonNull(sortParameter)) {
+      switch (sortParameter) {
+        case "byOldestDate" -> listOfCourseDTOS =
+            listOfCourseDTOS.stream()
+                .sorted(
+                    Comparator.comparing(
+                        courseDTO -> courseDTO.getCourse().getDate(), Comparator.naturalOrder()))
+                .collect(Collectors.toList());
+        case "byNewestDate" -> listOfCourseDTOS =
+            listOfCourseDTOS.stream()
+                .sorted(
+                    Comparator.comparing(
+                        courseDTO -> courseDTO.getCourse().getDate(), Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+        case "byLowestProgress" -> listOfCourseDTOS =
+            listOfCourseDTOS.stream()
+                .sorted(Comparator.comparing(CourseDTO::getProgress, Comparator.naturalOrder()))
+                .collect(Collectors.toList());
+        case "byHighestProgress" -> listOfCourseDTOS =
+            listOfCourseDTOS.stream()
+                .sorted(Comparator.comparing(CourseDTO::getProgress, Comparator.reverseOrder()))
+                .collect(Collectors.toList());
+      }
     }
   }
 }

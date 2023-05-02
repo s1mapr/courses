@@ -8,13 +8,14 @@
             margin: 0;
             padding: 0;
             height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
 
-        .authDiv {
+        .regDiv {
             width: 30%;
             height: 55%;
-            background: white;
+            background-color: #efeeee;
             border-radius: 20px;
         }
 
@@ -28,13 +29,7 @@
             border: none;
             border-bottom: 3px solid #8B4513;
             outline: none;
-        }
-
-        h1 {
-            margin-left: 10%;
-            font-family: Times New Roman, serif;
-
-
+            background-color: transparent;
         }
 
         p {
@@ -54,15 +49,14 @@
 
         .submit {
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 10px;
-            height: 30px;
-            width: 30%;
+            height: 37px;
+            width: auto;
+            font-size: 16px;
+            padding: 5px;
             border-radius: 20px;
             border-color: #8B4513;
             color: #A0522D;
-            background-color: white;
+            background-color: transparent;
         }
 
         .main_div {
@@ -73,63 +67,63 @@
             align-items: center;
         }
 
-        .center {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        h3{
+        h3 {
             padding-top: 10px;
         }
 
-        .back_btn{
-            width: 20%;
-            margin-right: auto;
+        .back_btn {
+            width: 80%;
+            margin: auto;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .back_btn a{
-            padding-left: 15px;
-        }
-        .div_h3{
+        .div_h1 {
             width: 100%;
             display: flex;
             justify-content: center;
         }
+
+        .submit:hover {
+            cursor: pointer;
+            color: white;
+            background-color: #A0522D;
+            border: none;
+        }
+
     </style>
 </head>
 <body th:style="'background-image:url(' + @{/images/back1.jpg} + ');background-repeat: no-repeat;background-size: 100%;'">
-<div class="center">
-    <div class="main_div">
-        <form class="authDiv" method="post" th:action="@{/registration}" th:object="${user}">
-            <div class="div_h3">
-                <h3>Реєстрація</h3>
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="login" placeholder="Логін">
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="password" placeholder="Пароль">
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="firstName" id="firstName" placeholder="Ім'я">
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="lastName" id="lastName" placeholder="Прізвище">
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="age" id="age" placeholder="Вік">
-            </div>
-            <div>
-                <input class="dataInput" type="text" name="email" id="email" placeholder="Електрона пошта">
-            </div>
+<div class="main_div">
+    <form class="regDiv" method="post" th:action="@{/registration}" th:object="${user}">
+        <div class="div_h1">
+            <h1>Реєстрація</h1>
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="login" placeholder="Логін">
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="password" placeholder="Пароль">
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="firstName" id="firstName" placeholder="Ім'я">
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="lastName" id="lastName" placeholder="Прізвище">
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="age" id="age" placeholder="Вік">
+        </div>
+        <div>
+            <input class="dataInput" type="text" name="email" id="email" placeholder="Електрона пошта">
+        </div>
+        <div class="back_btn">
+            <a th:href="@{/authorization}">Назад</a>
             <input class="submit" type="submit" value="Створити акаунт">
-            <div class="back_btn">
-                <a th:href="@{/authorization}">Назад</a>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 </body>

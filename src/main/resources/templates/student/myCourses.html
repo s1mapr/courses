@@ -12,24 +12,46 @@
             background-color: #fbfbfb;
         }
         .search{
-            width: 20%;
-            margin-left: auto;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 10px;
         }
 
         .search input{
             height: 20px;
-            width: 100%;
+            width: fit-content;
+            padding: 5px;
             border-radius: 10px;
-            border-color: #E7E7E7;
+            border: 1px solid #E7E7E7;
+        }
+
+        .form-select {
+            display: block;
+            width: fit-content;
+            padding: 5px;
+            border: 3px solid #E7E7E7;
+            border-radius: 10px 10px 10px 10px;
+        }
+
+        .form-select[multiple], .form-select[size]:not([size="1"]) {
+            height: auto;
+            padding-right: 0.75rem;
+            background-image: none;
         }
     </style>
 </head>
 <body>
 <div th:replace="~{student/header :: content}"></div>
 <div class="divfmc2">
-    <form class="search" method="get" th:action="@{/student/myCourses}">
-        <input type="text" name="title" placeholder="Введіть назву курсу">
+    <form class="search" method="get" th:object="${filter}" th:action="@{/student/myCourses}">
+        <select name="sortParameter" class="form-select" onchange="this.form.submit()">
+            <option value="byOldestDate" th:selected="${filter.getSortParameter() eq 'byOldestDate'}">За датою створення від старих</option>
+            <option value="byNewestDate" th:selected="${filter.getSortParameter() eq 'byNewestDate'}">За датою створення від нових</option>
+            <option value="byHighestProgress" th:selected="${filter.getSortParameter() eq 'byHighestProgress'}">За найбільним прогресом</option>
+            <option value="byLowestProgress" th:selected="${filter.getSortParameter() eq 'byLowestProgress'}">За найменшим прогресом</option>
+        </select>
+        <input type="text" th:value="${filter.getTitle()}" name="title" placeholder="Введіть назву курсу">
     </form>
     <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.course.id})} +'\''" class="course_element"
          th:each="element : ${courses}">

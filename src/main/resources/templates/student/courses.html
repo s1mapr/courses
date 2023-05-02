@@ -13,6 +13,7 @@
         }
 
 
+
         .search_element {
             display: flex;
             justify-content: center;
@@ -77,10 +78,17 @@
         .submit_input {
             height: 30px;
             width: 20%;
-            border-radius: 15px;
-            border-color: #E7E7E7;
+            border-radius: 10px;
+            border:1px solid #8B4513;
             outline: none;
             background-color: white;
+        }
+
+        .submit_input:hover{
+            cursor: pointer;
+            color: white;
+            background-color: #8B4513;
+            border: none;
         }
 
         .submit_element {
@@ -212,19 +220,21 @@
 
     </div>
     <div class="div2">
-        <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.id})} +'\''" class="course_element"
+        <div th:onclick="'location.href=\''+ @{/student/course/{id}(id=${element.course.id})} +'\''" class="course_element"
              th:each="element : ${courses}">
-            <div th:style="'background-image:url(' + @{${element.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
+            <div th:style="'background-image:url(' + @{${element.course.pictureUrl}} + ');background-repeat: no-repeat;background-size: contain;'"
                  class="course_img">
             </div>
             <div class="course_description">
                 <div class="course_info">
-                    <h3 th:text="${element.courseTitle}"></h3>
-                    <p th:text="${element.description}"></p>
-                    <p th:text="${element.teacherName}"></p>
+                    <h3 th:text="'Назва: ' + ${element.course.courseTitle}"></h3>
+                    <p th:text="'Опис: ' + ${element.course.description}"></p>
+                    <p th:text="'Предмет: ' + ${element.ukrValueOfSubject}"></p>
+                    <p th:text="'Складність: ' + ${element.ukrValueOfComplexity}"></p>
+                    <p th:text="${'Автор: ' + element.course.teacherName}"></p>
                 </div>
                 <div class="course_price">
-                    <p th:text="${element.price} + '₴'"></p>
+                    <p th:text="'Ціна: ' + ${element.course.price} + '₴'"></p>
                 </div>
             </div>
         </div>
@@ -238,6 +248,7 @@
 <script>
     function changeVision(divId) {
         document.querySelector(`#${divId}`).classList.toggle('none_active')
+        localStorage.setItem(`${divId}`, 'active')
     }
 
     // Получаем все чекбоксы на странице
@@ -274,6 +285,18 @@
             dropdown.classList.toggle('active');
         });
     });
+
+    document.addEventListener("DOMContentLoaded", () =>{
+        if(localStorage.getItem("subject") === "active"){
+            document.querySelector("#subject").classList.remove("none_active")
+        }
+    })
+
+    document.addEventListener("DOMContentLoaded", () =>{
+        if(localStorage.getItem("author") === "active"){
+            document.querySelector("#author").classList.remove("none_active")
+        }
+    })
 
 </script>
 </body>

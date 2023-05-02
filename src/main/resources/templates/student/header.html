@@ -12,7 +12,7 @@
     <nav>
         <ul>
             <li><a class="headerA" href="/student/myCourses">Мої курси</a></li>
-            <li><a class="headerA" href="/student/courses">Курси</a></li>
+            <li><a class="headerA" href="/student/courses" onclick="localStorage.clear()">Курси</a></li>
             <li class="dropdown">
                 <a th:text="${user.firstName} + ' ' + ${user.lastName}" href="#">menu</a>
                 <ul class="dropdown-menu">
@@ -23,7 +23,7 @@
 <!--                        <li><a href="/authorization">Редагувати профіль</a></li>-->
 <!--                    </div>-->
                     <div>
-                        <li><a href="/logout">Вийти</a></li>
+                        <li><a href="/logout" onclick="localStorage.clear()">Вийти</a></li>
                     </div>
                 </ul>
             </li>

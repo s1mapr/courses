@@ -4,19 +4,43 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        body{
+        body {
             margin: 0;
             padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
-        .div1{
+
+        .main_div {
+            width: 100%;
+            display: flex;
+        }
+
+        .div1 {
+            width: 55%;
+            height: 280px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .div1 p {
+            display: block;
+            width: 45%;
+            word-break: break-word;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .div1 h1{
+            margin: 0;
+        }
+
+
+        .div2 {
             width: 50%;
             min-height: 100vh;
-            float: left;
-        }
-        .div2{
-            width: 50%;
-            min-height: 100vh;
-            margin-left: 50%;
             top: 0;
             left: 0;
             display: flex;
@@ -25,81 +49,110 @@
             justify-content: center;
             overflow: auto;
         }
-        .authDiv{
-            padding-top: 5%;
-            padding-bottom: 5%;
+
+        .authDiv {
             width: 50%;
-            height: 50%;
-            background: white;
+            height: auto;
+            background-color: #efeeee;
             border-radius: 20px;
+            padding: 20px 22px 20px 22px;
         }
-        .dataInput{
+
+        .authDiv h1 {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .authDiv p {
+            margin: 0;
+            padding: 0;
+        }
+
+        input {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dataInput {
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 10px;
             height: 30px;
-            width: 80%;
+            width: 100%;
+            background-color: transparent;
+            color: #1c1c1c;
             border: none;
             border-bottom: 3px solid #8B4513;
             outline: none;
         }
-        h1{
-            margin-left: 10%;
-            font-family: Times New Roman,serif;
 
-
-        }
-        p{
+        p {
             display: inline-block;
-            margin-left: 10%;
         }
+
         ::placeholder {
             color: #696969;
             font-size: 1.2em;
         }
 
-        a{
+        a {
             color: #8B4513;
             text-decoration: none;
         }
 
-        .submit{
+        .submit {
             display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 10px;
-            height: 30px;
-            width: 30%;
+            height: 37px;
+            width: 40%;
             border-radius: 20px;
             border-color: #8B4513;
             color: #A0522D;
-            background-color: white;
+            background-color: transparent;
+            margin: auto;
+            font-size: 16px;
         }
+
+        .submit:hover{
+            cursor: pointer;
+            color: white;
+            background-color: #A0522D;
+            border: none;
+        }
+
+        .create_account {
+            width: fit-content;
+            margin: auto;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+
     </style>
 </head>
 <body th:style="'background-image:url(' + @{/images/back1.jpg} + ');background-repeat: no-repeat;background-size: 100%;'">
 
-<div>
+<div class="main_div">
     <div class="div1">
-
+        <h1>Вітаємо в ESchool</h1>
+        <p>ESchool - онлайн школа для підготовки випускників до НМТ! Наша ціль - допомогти учням зі всієї країни досягти кращих результатів на іспиті, та успішно вступити у бажаний ВНЗ.
+        Ми пропонуємо інтенсивні курси по усім предметам, що входять до переліку НМТ, які включать в себе теоретичні відео та текстові матеріали, практичні завдання, та тести.</p>
+        <p>Приєднуйся до ESchool і починайте готуватися до екзаменів вже сьогодні!</p>
     </div>
     <div class="div2">
         <div class="authDiv">
-            <h1>Вітаємо в ESchool</h1>
-            <form  method="post" th:action="@{/authorization}" th:object="${user}">
-                <div>
-                    <input class="dataInput" type="text" name="login" placeholder="Логін">
-
+            <h1>Авторизація</h1>
+            <form method="post" th:action="@{/authorization}" th:object="${user}">
+                <input class="dataInput" type="text" name="login" placeholder="Логін">
+                <input class="dataInput" type="password" name="password" placeholder="Пароль">
+                <input class="submit" type="submit" value="Авторизуватися">
+                <div class="create_account">
+                    <p>Немає облікового запису?</p>
+                    <a href="/registration">Зареєструватися!</a>
                 </div>
-                <div>
-                    <input class="dataInput" type="password" name="password" placeholder="Пароль">
-                </div>
-                <div>
-                    <input class="submit" type="submit" value="Авторизуватися">
-                </div>
-                <p>Немає облікового запису?</p>
-                <a href="/registration">Зареєструватися!</a>
             </form>
         </div>
     </div>

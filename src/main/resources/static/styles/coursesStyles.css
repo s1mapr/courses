@@ -2,12 +2,16 @@ img {
     width: 100%;
 }
 
+.headerDiv {
+    padding: 0 15px 0 15px;
+}
+
 .course_element {
     display: flex;
     width: 100%;
     height: 150px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #9e9c9e;
+    border-bottom: 1px solid #8B4513;
     margin-bottom: 15px;
 }
 
@@ -27,10 +31,11 @@ img {
 }
 
 .course_info {
-    width: 80%;
+    width: 70%;
 }
 
 .course_price {
+    width: 30%;
 }
 
 

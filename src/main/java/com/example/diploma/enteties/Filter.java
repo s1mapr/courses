@@ -14,4 +14,5 @@ public class Filter {
     private Double minPrice;
     private Double maxPrice;
     private List<String> subject;
+    private String sortParameter;
 }
