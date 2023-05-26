@@ -101,6 +101,12 @@
         .back_btn{
             margin: 0;
         }
+        .doc-div {
+            width: fit-content;
+            padding: 10px 10px 10px 10px;
+            margin: 0 auto 0 auto;
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
@@ -111,6 +117,9 @@
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
+    </div>
+    <div class="doc-div">
+        <embed th:src="${courseMaterial.documentUrl}" width="590" height="500" />
     </div>
     <div class="elements_div">
         <div class="element_div" th:each="element : ${tasks}">

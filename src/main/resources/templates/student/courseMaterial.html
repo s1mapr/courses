@@ -33,11 +33,19 @@
             margin: 0 auto 0 auto;
         }
 
+        .doc-div {
+            width: fit-content;
+            padding: 10px 10px 10px 10px;
+            margin: 0 auto 0 auto;
+            border: 1px solid black;
+        }
+
         .elements_div {
             width: 40%;
             padding-top: 10px;
             border-top: 1px solid black;
             margin: 10px auto 0 auto;
+            padding-bottom: 20px;
         }
 
     </style>
@@ -51,9 +59,17 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
     </div>
+<!--    <div class="">-->
+<!--        <iframe width="500" height="360" th:src="${material.documentUrl}" ></iframe>-->
+<!--    </div>-->
+
+    <div class="doc-div">
+        <embed th:src="${material.documentUrl}" width="590" height="500" />
+    </div>
+
     <div class="elements_div">
         <a th:href="@{/student/course/{courseId}/courseMaterial/{materialId}/task(courseId=${courseId}, materialId=${materialId})}">Пройти тести</a>
-        <p th:text="'(Ваш минулий результат: ' + ${status.getProgress()} + '%)'"></p>
+        <p th:text="'(Ваш результат: ' + ${status.getProgress()} + '%)'"></p>
         <a th:href="@{/student/course/{courseId}(courseId=${courseId})}">Назад</a>
     </div>
 </div>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{admin/header :: content}"></div>
+<div>
+    <div th:each="element : ${teachers}">
+        <p th:text="${element.email}"></p>
+        <p th:text="${element.firstName}"></p>
+        <p th:text="${element.lastName}"></p>
+        <p th:text="${element.login}"></p>
+
+    </div>
+</div>
+</body>
+</html>

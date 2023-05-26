@@ -18,6 +18,7 @@
 
         .headerDiv {
             padding: 0 15px 0 15px;
+            margin-bottom: 100px;
         }
 
         .center {
@@ -99,9 +100,11 @@
 
         .tasks_container {
             width: 25%;
+            height: fit-content;
         }
 
         .task {
+            height: fit-content;
             padding-bottom: 10px;
             border-bottom: 1px solid black;
             margin-bottom: 10px;
@@ -122,7 +125,7 @@
     </style>
 </head>
 <body>
-<div th:replace="teacher/header :: content"></div>
+<div th:replace="student/header :: content"></div>
 <div class="center">
     <div class="tasks_container" th:each="task:${tasks}">
         <div class="task" th:if="${task.variants.size() > 0}">
