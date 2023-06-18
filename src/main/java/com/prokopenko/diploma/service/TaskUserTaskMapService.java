@@ -1,6 +1,7 @@
 package com.prokopenko.diploma.service;
 
-import com.prokopenko.diploma.enteties.CourseMaterial;import org.springframework.beans.factory.annotation.Autowired;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.service;
 
-import com.prokopenko.diploma.enteties.CourseMaterial;
-import com.prokopenko.diploma.enteties.Task;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import com.prokopenko.diploma.entities.Task;
 import com.prokopenko.diploma.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,8 @@
 package com.prokopenko.diploma.controllers;
 
-import com.prokopenko.diploma.dto.*;import com.prokopenko.diploma.enteties.*;import com.prokopenko.diploma.service.*;import com.prokopenko.diploma.utils.CourseFilter;
+import com.prokopenko.diploma.dto.*;
+import com.prokopenko.diploma.entities.*;
+import com.prokopenko.diploma.service.*;import com.prokopenko.diploma.utils.CourseFilter;
 import com.prokopenko.diploma.utils.PdfGenerator;
 import com.itextpdf.text.DocumentException;
 import jakarta.servlet.http.HttpServletRequest;

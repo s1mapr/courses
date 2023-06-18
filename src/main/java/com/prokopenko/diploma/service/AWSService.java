@@ -1,4 +1,4 @@
-package com.example.diploma.service;
+package com.prokopenko.diploma.service;
 
 import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.AWSCredentials;
@@ -26,8 +26,8 @@ public class AWSService {
 
     public AWSService() {
         credentials = new BasicAWSCredentials(
-                "access",
-                "secret"
+                "AKIARLPKFFLF5UQG5GOJ",
+                "YueSb8ji7AysGJXM9KlnYjjZzktCWQn7YEvlBQrB"
         );
         s3client = AmazonS3ClientBuilder
                 .standard()

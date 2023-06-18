@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.dto;
 
-import com.prokopenko.diploma.enteties.CourseMaterial;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import com.prokopenko.diploma.entities.User;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;

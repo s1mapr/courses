@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.dto;
 
-import com.prokopenko.diploma.enteties.Course;
-import com.prokopenko.diploma.enteties.CourseMaterial;
+import com.prokopenko.diploma.entities.Course;
+import com.prokopenko.diploma.entities.CourseMaterial;
 import lombok.*;
 
 import java.util.List;

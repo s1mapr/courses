@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.dto;
 
-import com.prokopenko.diploma.enteties.Task;
-import com.prokopenko.diploma.enteties.Variant;
+import com.prokopenko.diploma.entities.Task;
+import com.prokopenko.diploma.entities.Variant;
 
 import java.util.List;
 

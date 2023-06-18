@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.controllers;
 
 import com.prokopenko.diploma.dto.Role;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.User;
 import com.prokopenko.diploma.service.UserCourseMapService;
 import com.prokopenko.diploma.service.UserService;
 import jakarta.servlet.http.HttpSession;

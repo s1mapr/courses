@@ -3,8 +3,8 @@ package com.prokopenko.diploma.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;import java.time.LocalDate;
 
-import com.prokopenko.diploma.enteties.Course;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.Course;
+import com.prokopenko.diploma.entities.User;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;import com.itextpdf.text.pdf.PdfWriter;

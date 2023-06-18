@@ -3,7 +3,8 @@ package com.prokopenko.diploma.service;
 import com.prokopenko.diploma.dto.Role;
 import com.prokopenko.diploma.dto.UserCourseMaterialPK;
 import com.prokopenko.diploma.dto.UserTaskPK;
-import com.prokopenko.diploma.enteties.*;import org.springframework.beans.factory.annotation.Autowired;
+import com.prokopenko.diploma.entities.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

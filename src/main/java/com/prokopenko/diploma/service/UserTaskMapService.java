@@ -1,7 +1,11 @@
 package com.prokopenko.diploma.service;
 
 import com.prokopenko.diploma.dto.UserTaskPK;
-import com.prokopenko.diploma.enteties.CourseMaterial;import com.prokopenko.diploma.enteties.Task;import com.prokopenko.diploma.enteties.User;import com.prokopenko.diploma.enteties.UserTaskMap;import com.prokopenko.diploma.repositories.UserTaskMapRepository;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import com.prokopenko.diploma.entities.Task;
+import com.prokopenko.diploma.entities.User;
+import com.prokopenko.diploma.entities.UserTaskMap;
+import com.prokopenko.diploma.repositories.UserTaskMapRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

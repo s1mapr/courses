@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.utils;
 
 import com.prokopenko.diploma.dto.CourseDTO;
-import com.prokopenko.diploma.enteties.Course;
+import com.prokopenko.diploma.entities.Course;
 import com.prokopenko.diploma.dto.Filter;
 import lombok.NoArgsConstructor;
 

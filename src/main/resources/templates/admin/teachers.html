@@ -3,16 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/headerStyles.css}">
+    <style>
+        .headerDiv {
+            padding: 0 15px 0 15px;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fbfbfb;
+
+        }
+
+        .main_div {
+            width: 25%;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        .element {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .edit {
+            height: fit-content;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 6px 8px;
+            background-color: blue;
+            border-radius: 5px;
+            text-decoration: none;
+
+        }
+
+        .block {
+            height: fit-content;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 6px 8px;
+            background-color: red;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .unblock {
+            height: fit-content;
+            color: white;
+            border: none;
+            font-size: 16px;
+            padding: 6px 8px;
+            background-color: green;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+    </style>
 </head>
 <body>
 <div th:replace="~{admin/header :: content}"></div>
-<div>
-    <div th:each="element : ${teachers}">
-        <p th:text="${element.email}"></p>
-        <p th:text="${element.firstName}"></p>
-        <p th:text="${element.lastName}"></p>
-        <p th:text="${element.login}"></p>
-
+<div class="main_div">
+    <div class="element" th:each="element : ${teachers}">
+        <p th:text="${element.firstName} + ' ' +${element.lastName}"></p>
+        <div th:switch="${element.status}">
+            <div class="buttons" th:case="true">
+                <a th:href="@{/admin/editTeacher/{id}(id=${element.id})}" class="edit">Редагувати</a>
+                <a th:href="@{/admin/teacherManipulation/{id}?action=block(id=${element.id})}"
+                   class="block">Заблокувати</a>
+            </div>
+            <div class="buttons" th:case="false">
+                <a th:href="@{/admin/editTeacher/{id}(id=${element.id})}" class="edit">Редагувати</a>
+                <a th:href="@{/admin/teacherManipulation/{id}?action=unblock(id=${element.id})}" class="unblock">Розблокувати</a>
+            </div>
+        </div>
     </div>
 </div>
 </body>

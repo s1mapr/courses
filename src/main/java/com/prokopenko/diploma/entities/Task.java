@@ -1,4 +1,4 @@
-package com.prokopenko.diploma.enteties;
+package com.prokopenko.diploma.entities;
 
 import jakarta.persistence.*;
 

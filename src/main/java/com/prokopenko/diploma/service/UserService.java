@@ -2,7 +2,7 @@ package com.prokopenko.diploma.service;
 
 
 import com.prokopenko.diploma.dto.Role;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.User;
 import com.prokopenko.diploma.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

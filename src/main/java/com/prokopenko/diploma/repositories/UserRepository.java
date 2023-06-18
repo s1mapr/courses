@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.repositories;
 
 import com.prokopenko.diploma.dto.Role;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -3,10 +3,8 @@ package com.prokopenko.diploma.service;
 import com.prokopenko.diploma.dto.CourseDTO;
 import com.prokopenko.diploma.dto.CourseStatus;
 import com.prokopenko.diploma.repositories.CourseRepository;
-import com.prokopenko.diploma.dto.Complexity;
-import com.prokopenko.diploma.dto.Subjects;
-import com.prokopenko.diploma.enteties.Course;
-import com.prokopenko.diploma.enteties.CourseMaterial;
+import com.prokopenko.diploma.entities.Course;
+import com.prokopenko.diploma.entities.CourseMaterial;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

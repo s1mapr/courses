@@ -1,4 +1,4 @@
-package com.prokopenko.diploma.enteties;
+package com.prokopenko.diploma.entities;
 
 import com.prokopenko.diploma.dto.Complexity;
 import com.prokopenko.diploma.dto.CourseStatus;
@@ -46,7 +46,7 @@ public class Course {
 
   @Column(name = "state", columnDefinition = "VARCHAR(20)")
   @Enumerated(EnumType.STRING)
-  private CourseStatus state = CourseStatus.PLANNED;
+  private CourseStatus state = CourseStatus.STARTED;
 
   @Column(name = "subject", columnDefinition = "VARCHAR(20)")
   @Enumerated(EnumType.STRING)

@@ -1,9 +1,8 @@
 package com.prokopenko.diploma.repositories;
 
-
-import com.prokopenko.diploma.enteties.CourseMaterial;
-import com.prokopenko.diploma.enteties.User;
-import com.prokopenko.diploma.enteties.UserTaskMap;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import com.prokopenko.diploma.entities.User;
+import com.prokopenko.diploma.entities.UserTaskMap;
 import com.prokopenko.diploma.dto.UserTaskPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

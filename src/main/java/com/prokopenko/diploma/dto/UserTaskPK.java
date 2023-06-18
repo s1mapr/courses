@@ -1,7 +1,7 @@
 package com.prokopenko.diploma.dto;
 
-import com.prokopenko.diploma.enteties.Task;
-import com.prokopenko.diploma.enteties.User;
+import com.prokopenko.diploma.entities.Task;
+import com.prokopenko.diploma.entities.User;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

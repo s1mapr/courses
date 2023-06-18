@@ -1,7 +1,11 @@
 package com.prokopenko.diploma.service;
 
 import com.prokopenko.diploma.dto.UserCourseMaterialPK;
-import com.prokopenko.diploma.enteties.CourseMaterial;import com.prokopenko.diploma.enteties.User;import com.prokopenko.diploma.enteties.UserCourseMap;import com.prokopenko.diploma.enteties.UserCourseMaterialMap;import org.springframework.beans.factory.annotation.Autowired;
+import com.prokopenko.diploma.entities.CourseMaterial;
+import com.prokopenko.diploma.entities.User;
+import com.prokopenko.diploma.entities.UserCourseMap;
+import com.prokopenko.diploma.entities.UserCourseMaterialMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,9 +1,8 @@
 package com.prokopenko.diploma.controllers;
 
-
-import com.prokopenko.diploma.enteties.Task;
-import com.prokopenko.diploma.enteties.User;
-import com.prokopenko.diploma.enteties.Variant;
+import com.prokopenko.diploma.entities.Task;
+import com.prokopenko.diploma.entities.User;
+import com.prokopenko.diploma.entities.Variant;
 import com.prokopenko.diploma.service.TaskService;
 import com.prokopenko.diploma.service.VariantService;
 import jakarta.servlet.http.HttpServletRequest;

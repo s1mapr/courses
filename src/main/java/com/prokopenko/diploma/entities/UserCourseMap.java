@@ -1,4 +1,4 @@
-package com.prokopenko.diploma.enteties;
+package com.prokopenko.diploma.entities;
 
 import com.prokopenko.diploma.dto.UserCoursePK;import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
