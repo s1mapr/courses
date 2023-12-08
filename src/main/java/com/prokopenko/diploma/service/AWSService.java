@@ -26,8 +26,8 @@ public class AWSService {
 
     public AWSService() {
         credentials = new BasicAWSCredentials(
-                "AKIARLPKFFLF5UQG5GOJ",
-                "YueSb8ji7AysGJXM9KlnYjjZzktCWQn7YEvlBQrB"
+                "1",
+                "2"
         );
         s3client = AmazonS3ClientBuilder
                 .standard()
